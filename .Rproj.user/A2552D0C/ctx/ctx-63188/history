@@ -1,0 +1,512 @@
+View(teste)
+data_not_id <- data |>
+filter(tconst !%in% id_horror)
+data_not_id <- data |>
+filter(tconst %notin% id_horror)
+data_not_id <- data |>
+filter(!tconst %in% id_horror)
+View(data_not_id)
+data_not_id <- data |>
+filter(tconst %in% !id_horror)
+gc()
+library(tidyverse)
+data_horror <- read_rds("dados/data_horror.rds")
+id_horror <- unique(data_horror$tconst)
+data <- vroom::vroom("https://datasets.imdbws.com/title.ratings.tsv.gz")
+data_id <- data |>
+filter(tconst %in% id_horror)
+unmatched <- anti_join(data_horror, data_id, by="tconst")
+View(unmatched)
+?right_join
+teste <- right_join(data_horror, data_id, keep = TRUE)
+View(teste)
+teste <- right_join(data_horror, data_id)
+View(unmatched)
+View(teste)
+View(unmatched)
+?merge
+teste <- right_join(data_horror, data_id, all.x = L)
+teste <- right_join(data_horror, data_id, all.y = L)
+teste <- right_join(data_horror, data_id, all = L)
+teste <- right_join(data_horror, data_id, all.x = TRUE)
+teste <- right_join(data_horror, data_id, all.y = TRUE)
+teste <- right_join(data_horror, data_id, all = TRUE)
+teste <- right_join(data_horror, data_id, all = T)
+teste <- right_join(data_horror, data_id, all.x = T)
+teste <- right_join(data_horror, data_id, all.y = T)
+teste <- merge(data_horror, data_id, all = TRUE)
+View(teste)
+data_horror <- read_rds("dados/data_horror.rds")
+id_horror <- unique(data_horror$tconst)
+links <- c(
+"https://datasets.imdbws.com/title.crew.tsv.gz",
+"https://datasets.imdbws.com/title.principals.tsv.gz",
+"https://datasets.imdbws.com/title.ratings.tsv.gz"
+)
+data_merged <-
+for (link in links) {
+data <- vroom::vroom(link)
+data_id <- data |>
+filter(tcost %in% id_horror)
+data_horror <- merge(data_horror, data_id, all = TRUE)
+}
+data_horror <- read_rds("dados/data_horror.rds")
+id_horror <- unique(data_horror$tconst)
+links <- c(
+"https://datasets.imdbws.com/title.crew.tsv.gz",
+"https://datasets.imdbws.com/title.principals.tsv.gz",
+"https://datasets.imdbws.com/title.ratings.tsv.gz"
+)
+data_merged <-
+for (link in links) {
+data <- vroom::vroom(link)
+data_id <- data |>
+filter(tconst %in% id_horror)
+data_horror <- merge(data_horror, data_id, all = TRUE)
+}
+View(data_horror)
+data_id <- data |>
+filter(tconst %in% id_horror)
+data <- vroom::vroom("https://datasets.imdbws.com/title.ratings.tsv.gz")
+data_id <- data |>
+filter(tconst %in% id_horror)
+glimpse(data)
+library(tidyverse)
+data_horror <- read_rds("dados/data_horror.rds")
+id_horror <- unique(data_horror$tconst)
+data <- vroom::vroom("https://datasets.imdbws.com/title.ratings.tsv.gz")
+data_id <- data |>
+filter(tconst %in% id_horror)
+glimpse(data_id)
+data_merged <- merge(data_horror, data_id, by = tconst, all = TRUE)
+data_merged <- merge(data_horror, data_id, by = "tconst", all = TRUE)
+data_merged
+library(tidyverse)
+library(tidyverse)
+data_horror <- read_rds("dados/data_horror.rds")
+id_horror <- unique(data_horror$tconst)
+data <- vroom::vroom("https://datasets.imdbws.com/title.ratings.tsv.gz")
+data_id <- data |>
+filter(tconst %in% id_horror)
+data_merged <- merge(data_horror, data_id, by = "tconst", all = TRUE)
+data_merged
+library(tidyverse)
+data_horror <- read_rds("dados/data_horror.rds")
+id_horror <- unique(data_horror$tconst)
+links <- c(
+"https://datasets.imdbws.com/title.ratings.tsv.gz",
+"https://datasets.imdbws.com/title.akas.tsv.gz"
+)
+for (link in links) {
+data <- vroom::vroom(link)
+data_id <- data |>
+filter(tconst %in% id_horror)
+data_horror <- merge(data_horror, data_id, by = "tconst", all = TRUE)
+}
+View(data_horror)
+library(tydiverse)
+library(tidyverse)
+data <- vroom::vroom("dados/title.akas.tsv.gz")
+glimpse(data)
+teste <- left_join(data_horror, data_id, by = "tconst")
+teste <- right_join(data_horror, data_id, by = "tconst")
+teste <- right_join(data_horror, data_id, by = "tconst")
+teste <- left_join(data_horror, data_id, by = "tconst")
+teste
+data_merged <- left_join(data_horror, data_id, by = "tconst", all = TRUE)
+library(tidyverse)
+data_horror <- read_rds("dados/data_horror.rds")
+id_horror <- unique(data_horror$tconst)
+data <- vroom::vroom("https://datasets.imdbws.com/title.ratings.tsv.gz")
+data_id <- data |>
+filter(tconst %in% id_horror)
+data_merged <- left_join(data_horror, data_id, by = "tconst", all = TRUE)
+data <- vroom::vroom("https://datasets.imdbws.com/title.akas.tsv.gz")
+glimpse(data)
+data_title <- data |>
+filter(titleId %in% id_horror)
+head(data_title)
+library(tidyverse)
+data_horror <- read_rds("dados/data_horror.rds")
+id_horror <- unique(data_horror$tconst)
+data <- vroom::vroom("https://datasets.imdbws.com/title.ratings.tsv.gz")
+data_id <- data |>
+filter(tconst %in% id_horror)
+data_merged <- left_join(data_horror, data_id, by = "tconst", all = TRUE)
+write_rds(data_merged, "dados/data_horror_rating")
+data <- read_rds("dados/data_horror_rating")
+View(data)
+library(tidyverse)
+data <- read_rds("dados/data_horror_rating")
+View(data)
+View(data)
+data <- read_rds("dados/data_horror.rds")
+library(tidyverse)
+data <- read_rds("dados/data_horror.rds")
+View(data)
+lapply(data,class)
+library(tidyverse)
+data_horror <- read_rds("dados/data_horror.rds")
+id_horror <- unique(data_horror$tconst)
+data <- vroom::vroom("https://datasets.imdbws.com/title.ratings.tsv.gz")
+library(tidyverse)
+data <- read_rds("dados/data_horror_rating")
+data_title <- vroom::vroom("https://datasets.imdbws.com/title.akas.tsv.gz")
+glimpse(data_titls)
+glimpse(data_title)
+View(data)
+data_title <- rename(data_title, titleId = tconst)
+data_title <- rename(data_title, tconst = titleId)
+names(data_title)
+id_horror <- unique(data_horror$tconst)
+data_filtered <- data_title |>
+filter(tconst %in% id_horror)
+View(data_filtered)
+head(data_filteread)
+head(data_filtered)
+data_origianal <- data_filtered |>
+filter(types == "original")
+View(data_origianal)
+uniquei(data_filtered$types)
+unique(data_filtered$types)
+data_origianal <- data_filtered |>
+filter(isOriginalTitle == 1)
+unique(data_filtered$isOriginalTitle)
+View(data_origianal)
+unique(data_origianal$region)
+install.packages("basedosdados")
+library(basedosdados)
+?basedosdados
+basedosdados::list_dataset_tables()
+basedosdados::list_dataset_tables(dataset_id = "238c20f9-4c2f-411b-aba1-907bb59b4c4d")
+library(tidyverse)
+data <- read_csv("dados/1948 - 1986.csv")
+View(data)
+data_2 <- read.csv("dados/1987 - 2022.csv")
+View(data_2)
+View(data)
+View(data)
+View(data_2)
+library(tidyverse)
+data <- read_rds("dados/data_horror_rating")
+data
+max(data$runtimeMinutes)
+max(unique((data$runtimeMinutes)))
+select(data, runtime == "100")
+glimpse(data)
+select(data, runtimeMinutes == "100")
+select(data, runtimeMinutes == "99")
+select(data, runtimeMinutes == "70")
+filter(data, runtimeMinutes == "70")
+filter(data, runtimeMinutes == "100")
+filter(data, runtimeMinutes == 99)
+filter(data, runtimeMinutes == 100)
+filter(data, runtimeMinutes >= 100)
+glimpse(data)
+unique(data$isAdult)
+filter(data, isAdult == 1)
+filter(data, titleType == NA)
+unique(data$titleType)
+data_year <- data |>
+filter(endYear >=2021)
+max(data$endYear)
+data |>
+mutate(endYear = case_when(
+endYear == "\\N" ~ endsYear == NA
+))
+mutate(data, endYear = case_when(
+endYear == "\\N" ~ endsYear == NA
+))
+mutate(data, endYear = case_when(
+endYear == "\\N" ~ endYear == NA
+))
+data1 <- mutate(endYear = case_when(endYear == "\\N" ~ endYear == NA))
+data1 <- mutate(data, endYear = case_when(endYear == "\\N" ~ endYear == NA))
+max(data1$endYear)
+unique(data1$endYear)
+unique(data$startYear)
+data_year <- data |>
+filter(endYear == 2021)
+data_year <- data |>
+filter(endYear == "2021")
+data_year <- data |>
+filter(endYear == "2020")
+data_year <- data |>
+filter(endYear == "1919")
+View(data1)
+data[data == "endYear"]
+data[data == "//N"] <- NA
+data
+data[data == "\\N"] <- NA
+data
+max(startYear)
+max(data$startYear)
+max(data$startYear, na.rm = TRUE)
+min(data$startYear, na.rm = TRUE)
+data$runtimeMinutes <- as.numeric(data$runtimeMinutes)
+max(data$runtimeMinutes)
+max(data$runtimeMinutes, na.rm = TRUE)
+filter(data, runtimeMinutes == max(data$runtimeMinutes, na.rm = TRUE))
+filter(data, runtimeMinutes == max(data$runtimeMinutes, na.rm = TRUE))
+library(tidyverse)
+data <- read_rds("dados/data_horror_rating")
+max(data$runtimeMinutes, na.rm = TRUE)
+data$runtimeMinutes <- as.numeric(data$runtimeMinutes)
+max(data$runtimeMinutes, na.rm = TRUE)
+filter(data, runtimeMinutes == max(data$runtimeMinutes, na.rm = TRUE))
+arrange(data, runtimeMinutes)
+arrange(data, desc(runtimeMinutes))
+max(data$averageRating)
+max(data$averageRating, na.rm = TRUE)
+arrange(data, desc(runtimeMinutes))
+View(data)
+arrange(data, desc(averageRating))
+data[data == "\\N"] <- NA
+data$endYear
+unique(data$endYear)
+data <- read_rds("dados/data_horror_rating")
+data <- data |>
+replace(data$endYear, data$endYear == "\\N", NA)
+data <- data |>
+replace(data$endYear, data$endYear == "\\N", values = NA)
+data$endYear[data$endYear == "\\N"] <- NA
+unique(data$endYear)
+data <- data$endYear[data$endYear == "\\N"] <- NA
+unique(data$endYear)
+data
+data <- read_rds("dados/data_horror_rating")
+data <- data$endYear[data$endYear == "\\N"] <- NA_character_
+data <- read_rds("dados/data_horror_rating")
+data |>
+select(endYear) |>
+mutate(endYear = case_when(
+endYear == "\\N" ~ NA_character_))
+View(data)
+data <- data |>
+select(endYear) |>
+mutate(endYear = case_when(
+endYear == "\\N" ~ NA_character_))
+for (i in 1:nrow(data)){
+if (data$endYear[i] == "\\N") {
+data$endYear[i] = NA
+}
+}
+if (data$endYear[i] == "\\N") {
+data$endYear[i] <- NA
+}
+data$endYear[1] == "\\N"
+data$endYear[1]
+data$endYear[2]
+data$endYear
+data <- read_rds("dados/data_horror_rating")
+for (i in 1:nrow(data)){
+if (data$endYear[i] == "\\N") {
+data$endYear[i] <- NA
+}
+}
+unique(data$endYear)
+View(data)
+data <- read_rds("dados/data_horror_rating")
+data_teste <- data$endYear[data$endYear == "\\N"] <- NA_character_ ## substituiu todos os valores
+data$endYear[1]
+data$endYear
+data <- read_rds("dados/data_horror_rating")
+data$endYear[1]
+data$endYear[1] == "\\N"
+data$endYear[500] == "\\N"
+data$endYear[1000] == "\\N"
+data$endYear[1600] == "\\N"
+data$endYear[2000] == "\\N"
+data <- read_rds("dados/data_horror_rating")
+View(data)
+tail(data)
+data_2 <- read_rds("dados/data_horror.rds")
+View(data_2)
+unique(data_2$endYear)
+data_original <- vroom::vroom("dados/title.akas.tsv.gz")
+tail(data_original)
+data <- read_rds("dados/data_horror_rating")
+library(tidyverse)
+data <- read_rds("dados/data_horror_rating")
+data <- select(data, -endYear)
+View(data)
+?rename
+data <- rename(data, startYear = releaseYear)
+data <- rename(data, releaseYear = startYear)
+head(data)
+glimpse(data)
+data <- read_rds("dados/data_horror_rating")
+glimpse(data)
+data <- data |>
+select(-endYear) |>
+rename(releaseYear = startYear)
+View(data)
+data$runtimeMinutes[data$runtimeMinutes == "\\N"]
+data$runtimeMinutes[data$runtimeMinutes == "\\N"] <- NA
+View(data)
+data$runtimeMinutes <- as.numeric(data$runtimeMinutes)
+glimpse(data)
+max(data$runtimeMinutes, na.rm = TRUE)
+max(data$releaseYear)
+min(data$releaseYear)
+data$releaseYear[data$releaseYear == "\\N"]
+tail(data)
+data |>
+filter(releaseYear >= 2022 | releaseYear == "\\N")
+data |>
+filter(releaseYear == "\\N")
+data |>
+filter(releaseYear >= 2022)
+data <- read_rds("dados/data_horror_rating")
+glimpse(data)
+data |>
+mutate(runtimeMinutes_2 = na_if(runtimeMinutes, "\\N")) |>
+View()
+data |>
+mutate(runtimeMinutes = na_if(runtimeMinutes, "\\N")) |>
+View()
+transformar_na <- function(coluna) {
+na_if(coluna, "\\N")
+}
+data |>
+# mutate(runtimeMinutes = na_if(runtimeMinutes, "\\N")) |>
+mutate(across(.fns = transformar_na)) |>
+View()
+data_semna <- data |>
+# mutate(runtimeMinutes = na_if(runtimeMinutes, "\\N")) |>
+mutate(across(.fns = transformar_na))
+glimpse(data_semna)
+install.packages("dados")
+install.packages("dados")
+library(tidyverse)
+data <- read_rds("dados/data_horror_rating")
+glimpse(data)
+data <- data |>
+select(-endYear) |>
+rename(releaseYear = startYear)
+glimpse(data)
+transformar_na <- function(coluna) {
+na_if(coluna, "\\N")
+}
+data_semna <- data |>
+# mutate(runtimeMinutes = na_if(runtimeMinutes, "\\N")) |>
+mutate(across(.fns = transformar_na))
+glimpse(data_semna)
+data_raw <- read_rds("dados/data_horror_rating")
+glimpse(data_raw)
+data <- data_raw |>
+select(-endYear) |>
+rename(releaseYear = startYear)
+transformar_na <- function(coluna) {
+na_if(coluna, "\\N")
+}
+data_semna <- data |>
+# mutate(runtimeMinutes = na_if(runtimeMinutes, "\\N")) |>
+mutate(across(.fns = transformar_na))
+data <- data |>
+# mutate(runtimeMinutes = na_if(runtimeMinutes, "\\N")) |>
+mutate(across(.fns = transformar_na))
+glimpse(data)
+data_separeted <- data |>
+separate_rows(genres, sep = ",")
+glimpse(data_separeted)
+View(data_separeted)
+data |>
+separate_rows(genres, sep = ",") |>
+filter(genres != "Horror") |>
+View(data)
+data |>
+separate_rows(genres, sep = ",") |>
+filter(genres != "Horror") |>
+View()
+data_separeted <- data |>
+separate_rows(genres, sep = ",") |>
+filter(genres != "Horror") |>
+data_separeted |>
+group_by(genres) |>
+summarise(mean(numVotes), mean(averageRating))
+data_separeted <- data |>
+separate_rows(genres, sep = ",") |>
+filter(genres != "Horror") |>
+data_separeted |>
+group_by(genres)
+data_separeted <- data |>
+separate_rows(genres, sep = ",") |>
+filter(genres != "Horror") |>
+group_by(data_separeted)
+data_separeted <- data |>
+separate_rows(genres, sep = ",") |>
+filter(genres != "Horror") |>
+group_by(data_separeted, genres)
+data_separeted <- data |>
+separate_rows(genres, sep = ",") |>
+filter(genres != "Horror") |>
+data_separeted |>
+group_by(genres)
+data_separeted <- data |>
+separate_rows(genres, sep = ",") |>
+filter(genres != "Horror") |>
+data_separeted |>
+group_by(genres) |>
+summarise()
+group_by(data_separeted)
+group_by(data_separeted, genres)
+data_separeted <- data |>
+separate_rows(genres, sep = ",") |>
+filter(genres != "Horror") |>
+data_separeted |>
+group_by(genres) |>
+summarise(n = n())
+data_separeted <- data |>
+separate_rows(genres, sep = ",") |>
+filter(genres != "Horror") |>
+data_separeted |>
+group_by(genres) |>
+summarise(mean = mean(averageRating), n = n())
+library(tidyverse)
+library(tidyverse)
+data_raw <- read_rds("dados/data_horror_rating")
+glimpse(data_raw)
+data <- data_raw |>
+select(-endYear) |>
+rename(releaseYear = startYear)
+transformar_na <- function(coluna) {
+na_if(coluna, "\\N")
+}
+data <- data |>
+# mutate(runtimeMinutes = na_if(runtimeMinutes, "\\N")) |>
+mutate(across(.fns = transformar_na))
+glimpse(data)
+data_separeted <- data |>
+separate_rows(genres, sep = ",") |>
+filter(genres != "Horror") |>
+data_separeted |>
+group_by(genres) |>
+summarise(, n = n())
+data_separeted <- data |>
+separate_rows(genres, sep = ",") |>
+filter(genres != "Horror") |>
+data_separeted |>
+group_by(genres) |>
+summarise(n = n())
+data_separeted <- data |>
+separate_rows(genres, sep = ",") |>
+filter(genres != "Horror")
+data_separeted |>
+group_by(genres) |>
+summarise(n = n())
+data_separeted |>
+group_by(genres) |>
+summarise(mean = averageRating,n = n())
+data_separeted |>
+group_by(genres) |>
+summarise(mean = mean(averageRating), n = n())
+data_separeted |>
+group_by(genres) |>
+summarise(mean = mean(averageRating, na.rm = TRUE), n = n())
+data_separeted |>
+group_by(genres) |>
+summarise(mean = mean(averageRating, na.rm = TRUE), n = n()) |>
+View()
+pkg_list <- c("tidyverse", "gt", "gtExtras", "rectable", "ggiraph", "here", "quarto", "rmarkdown", "gtsummary", "palmerpenguins", "fs", "skimr")
+install.packages(pkg_list)

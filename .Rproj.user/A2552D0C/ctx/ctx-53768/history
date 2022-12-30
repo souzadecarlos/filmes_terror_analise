@@ -1,0 +1,512 @@
+"Duração" = RUNTIME,
+"Nota média" = AVG
+) |>
+arrange(desc("Nota média")) |>
+reactable::reactable(searchable = TRUE, defaultPageSize = 5)
+data_raw |>
+filter(DIRECTOR %in% top_diretores_velhos
+| DIRECTOR %in% top_diretores_novos
+| DIRECTOR %in% top_diretores_estrangeiros) |>
+# filter(AVG > 70) |>
+# filter(RUNTIME >= 60 & RUNTIME <=120) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ", ", na.rm = TRUE) |>
+group_by(DIRECTOR) |>
+slice_max(AVG, n = 1) |>
+select(TITLE, YEAR, GENRE, DIRECTOR, RUNTIME, AVG) |>
+rename(
+"Título" = TITLE,
+"Ano" = YEAR,
+"Gênero" = GENRE,
+"Diretor" = DIRECTOR,
+"Duração" = RUNTIME,
+"Nota média" = AVG
+) |>
+arrange(desc(`Nota média`)) |>
+reactable::reactable(searchable = TRUE, defaultPageSize = 5)
+data_raw |>
+filter(DIRECTOR %in% top_diretores_velhos
+| DIRECTOR %in% top_diretores_novos
+| DIRECTOR %in% top_diretores_estrangeiros) |>
+# filter(AVG > 70) |>
+# filter(RUNTIME >= 60 & RUNTIME <=120) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ", ", na.rm = TRUE) |>
+group_by(DIRECTOR) |>
+slice_max(AVG, n = 1) |>
+View()
+select(TITLE, YEAR, GENRE, DIRECTOR, RUNTIME, AVG) |>
+rename(
+"Título" = TITLE,
+"Ano" = YEAR,
+"Gênero" = GENRE,
+"Diretor" = DIRECTOR,
+"Duração" = RUNTIME,
+"Nota média" = AVG
+) |>
+arrange(desc(`Nota média`)) |>
+reactable::reactable(searchable = TRUE, defaultPageSize = 5)
+data_raw |>
+filter(DIRECTOR %in% top_diretores_velhos
+| DIRECTOR %in% top_diretores_novos
+| DIRECTOR %in% top_diretores_estrangeiros) |>
+# filter(AVG > 70) |>
+# filter(RUNTIME >= 60 & RUNTIME <=120) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ", ", na.rm = TRUE) |>
+group_by(DIRECTOR) |>
+slice_max(AVG, n = 1, with_ties = FALSE) |>
+select(TITLE, YEAR, GENRE, DIRECTOR, RUNTIME, AVG) |>
+rename(
+"Título" = TITLE,
+"Ano" = YEAR,
+"Gênero" = GENRE,
+"Diretor" = DIRECTOR,
+"Duração" = RUNTIME,
+"Nota média" = AVG
+) |>
+arrange(desc(`Nota média`)) |>
+reactable::reactable(searchable = TRUE, defaultPageSize = 5)
+data_raw |>
+filter(DIRECTOR %in% top_diretores_velhos
+| DIRECTOR %in% top_diretores_novos
+| DIRECTOR %in% top_diretores_estrangeiros) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ", ", na.rm = TRUE) |>
+group_by(DIRECTOR) |> View()
+top_diretores_velhos
+top_diretores_novos
+data_raw |>
+filter(DIRECTOR %in% top_diretores_velhos
+| DIRECTOR %in% top_diretores_novos
+| DIRECTOR %in% top_diretores_estrangeiros) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ", ", na.rm = TRUE) |>
+group_by(DIRECTOR) |>
+slice_max(AVG, n = 1, with_ties = FALSE) |>
+select(TITLE, YEAR, GENRE, DIRECTOR, RUNTIME, AVG) |>
+rename(
+"Título" = TITLE,
+"Ano" = YEAR,
+"Gênero" = GENRE,
+"Diretor" = DIRECTOR,
+"Duração" = RUNTIME,
+"Nota média" = AVG
+) |>
+arrange(desc(`Nota média`)) |>
+reactable::reactable(searchable = TRUE, defaultPageSize = 5)
+data_raw |>
+filter(DIRECTOR %in% top_diretores_velhos
+| DIRECTOR %in% top_diretores_novos
+| DIRECTOR %in% top_diretores_estrangeiros) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ", ", na.rm = TRUE) |>
+group_by(DIRECTOR) |>
+slice_max(AVG, n = 1, with_ties = FALSE) |>
+select(TITLE, YEAR, GENRE, DIRECTOR, RUNTIME, AVG) |>
+rename(
+"Título" = TITLE,
+"Ano" = YEAR,
+"Gênero" = GENRE,
+"Diretor" = DIRECTOR,
+"Duração" = RUNTIME,
+"Nota média" = AVG
+) |>
+arrange(desc(`Nota média`)) |>
+reactable::reactable(searchable = TRUE,
+defaultPageSize = 5,
+bordered = TRUE,
+highlight = TRUE)
+data_raw |>
+filter(DIRECTOR %in% top_diretores_velhos
+| DIRECTOR %in% top_diretores_novos
+| DIRECTOR %in% top_diretores_estrangeiros) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ", ", na.rm = TRUE) |>
+group_by(DIRECTOR) |>
+slice_max(AVG, n = 1, with_ties = FALSE) |>
+select(TITLE, YEAR, GENRE, DIRECTOR, RUNTIME, AVG) |>
+rename(
+"Título" = TITLE,
+"Ano" = YEAR,
+"Gênero" = GENRE,
+"Diretor" = DIRECTOR,
+"Duração" = RUNTIME,
+"Nota média" = AVG
+) |>
+arrange(desc(`Nota média`)) |>
+reactable::reactable(searchable = TRUE,
+defaultPageSize = 5,
+bordered = TRUE,
+highlight = TRUE,
+defaultColDef = reactable::colDef(
+align = "justified"
+))
+data_raw |>
+filter(DIRECTOR %in% top_diretores_velhos
+| DIRECTOR %in% top_diretores_novos
+| DIRECTOR %in% top_diretores_estrangeiros) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ", ", na.rm = TRUE) |>
+group_by(DIRECTOR) |>
+slice_max(AVG, n = 1, with_ties = FALSE) |>
+select(TITLE, YEAR, GENRE, DIRECTOR, RUNTIME, AVG) |>
+rename(
+"Título" = TITLE,
+"Ano" = YEAR,
+"Gênero" = GENRE,
+"Diretor" = DIRECTOR,
+"Duração" = RUNTIME,
+"Nota média" = AVG
+) |>
+arrange(desc(`Nota média`)) |>
+reactable::reactable(searchable = TRUE,
+defaultPageSize = 5,
+bordered = TRUE,
+highlight = TRUE,
+defaultColDef = reactable::colDef(
+align = "left"
+))
+data_raw |>
+filter(DIRECTOR %in% top_diretores_velhos
+| DIRECTOR %in% top_diretores_novos
+| DIRECTOR %in% top_diretores_estrangeiros) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ", ", na.rm = TRUE) |>
+group_by(DIRECTOR) |>
+slice_max(AVG, n = 1, with_ties = FALSE) |>
+select(TITLE, YEAR, GENRE, DIRECTOR, RUNTIME, AVG) |>
+rename(
+"Título" = TITLE,
+"Ano" = YEAR,
+"Gênero" = GENRE,
+"Diretor" = DIRECTOR,
+"Duração" = RUNTIME,
+"Nota média" = AVG
+) |>
+arrange(desc(`Nota média`)) |>
+reactable::reactable(searchable = TRUE,
+defaultPageSize = 5,
+bordered = TRUE,
+highlight = TRUE,
+defaultColDef = reactable::colDef(
+align = "center",
+headerStyle = list(background = "#f7f7f8")
+))
+data_raw |>
+filter(DIRECTOR %in% top_diretores_velhos
+| DIRECTOR %in% top_diretores_novos
+| DIRECTOR %in% top_diretores_estrangeiros) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ", ", na.rm = TRUE) |>
+group_by(DIRECTOR) |>
+slice_max(AVG, n = 1, with_ties = FALSE) |>
+select(TITLE, YEAR, GENRE, DIRECTOR, RUNTIME, AVG) |>
+rename(
+"Título" = TITLE,
+"Ano" = YEAR,
+"Gênero" = GENRE,
+"Diretor" = DIRECTOR,
+"Duração" = RUNTIME,
+"Nota média" = AVG
+) |>
+arrange(desc(`Nota média`)) |>
+reactable::reactable(searchable = TRUE,
+defaultPageSize = 5,
+bordered = TRUE,
+highlight = TRUE,
+defaultColDef = reactable::colDef(
+align = "center",
+headerStyle = list(background = "#f7f7f8"),
+minWidth = 140
+))
+data_raw |>
+filter(DIRECTOR %in% top_diretores_velhos
+| DIRECTOR %in% top_diretores_novos
+| DIRECTOR %in% top_diretores_estrangeiros) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ", ", na.rm = TRUE) |>
+group_by(DIRECTOR) |>
+slice_max(AVG, n = 1, with_ties = FALSE) |>
+select(TITLE, YEAR, GENRE, DIRECTOR, RUNTIME, AVG, JUMPSCARES) |>
+rename(
+"Título" = TITLE,
+"Ano" = YEAR,
+"Gênero" = GENRE,
+"Diretor" = DIRECTOR,
+"Duração" = RUNTIME,
+"Nota média" = AVG,
+"Sustos" = JUMPSCARES
+) |>
+arrange(desc(`Nota média`)) |>
+reactable::reactable(searchable = TRUE,
+defaultPageSize = 5,
+bordered = TRUE,
+highlight = TRUE,
+defaultColDef = reactable::colDef(
+align = "center",
+headerStyle = list(background = "#f7f7f8"))
+# columns = list(
+#   Sustos = reactable::colDef(cell = function(valeu){
+#     if
+#   })
+# )
+)
+top_diretores_novos <- data_raw |>
+group_by(DIRECTOR) |>
+summarise(num_filmes = n(),
+nota_media = mean(AVG),
+ano_medio = mean(YEAR, na.rm = TRUE)) |>
+filter(num_filmes >= 2, ano_medio >= 2000) |>
+slice_max(nota_media, n = 5)
+data_raw |>
+group_by(DIRECTOR) |>
+summarise(num_filmes = n(),
+nota_media = mean(AVG),
+ano_medio = mean(YEAR, na.rm = TRUE)) |>
+filter(num_filmes >= 2, ano_medio > 2000) |>
+slice_max(nota_media, n = 5) |>
+mutate(DIRECTOR = forcats::fct_reorder(DIRECTOR, nota_media)) |>
+ggplot() +
+aes(x = DIRECTOR, y = nota_media) +
+geom_bar(stat = "Identity") +
+geom_label(aes(label = round(ano_medio))) +
+coord_flip() +
+scale_y_continuous(limits = c(0,100))
+top_diretores_filmes <- data_raw |>
+filter(DIRECTOR %in% top_diretores) |>
+select(TITLE, DIRECTOR, YEAR, RUNTIME, AVG) |>
+group_by(DIRECTOR) |>
+slice_max(order_by = AVG, n=1) |>
+rename(
+"Titulo" = TITLE,
+"Ano" = YEAR,
+"Diretor" = DIRECTOR,
+"Duracao" = RUNTIME,
+"Media" = AVG
+) |>
+arrange(factor(Diretor, levels = top_diretores)) |>
+knitr::kable()
+top_diretores_filmes
+g2 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA", GENRE != "Documentary") |>
+group_by(GENRE) |>
+summarise(num = n(), nota_media = mean(AVG, na.rm = TRUE)) |>
+filter(num >=20) |>
+slice_max(nota_media, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, nota_media)) |>
+ggplot() +
+aes(x = GENRE, y = nota_media/10) +
+geom_bar(stat = "Identity") +
+coord_flip() +
+scale_y_continuous(limits = c(0, 10))
+g1 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+count(GENRE) |>
+slice_max(n, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, n)) |>
+ggplot() +
+aes(x = GENRE, y = n) |>
+geom_bar(stat = "Identity") +
+coord_flip()
+g1 / g2
+p2 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA", !is.na(JUMPSCARES)) |>
+group_by(GENRE) |>
+summarise(num_filmes = n() , num_sustos = mean(JUMPSCARES, na.rm = TRUE)) |>
+filter(num_filmes > 5) |>
+slice_min(num_sustos, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, num_sustos)) |>
+ggplot() +
+aes(x = GENRE, y = num_sustos) +
+geom_bar(stat = "Identity") +
+scale_y_continuous(limits = c(0, 15)) +
+coord_flip() +
+ylab("Numero de sustos") +
+theme(axis.title.y = element_blank(),
+text = element_text(size = 20))
+p1 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA", !is.na(JUMPSCARES)) |>
+group_by(GENRE) |>
+summarise(num_filmes = n(), num_sustos = mean(JUMPSCARES, na.rm = TRUE)) |>
+filter(num_filmes > 5) |>
+slice_max(num_sustos, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, num_sustos)) |>
+ggplot() +
+aes(x = GENRE, y = num_sustos) +
+geom_bar(stat = "Identity") +
+scale_y_continuous(limits = c(0, 15)) +
+coord_flip() +
+theme(axis.title.x = element_blank(),
+axis.title.y = element_blank(),
+text = element_text(size = 20))
+patchwork <- p1 / p2
+patchwork
+mean(data_raw$RUNTIME, na.rm = TRUE)
+round(mean(data_raw$RUNTIME, na.rm = TRUE))
+duracao_media <- round(mean(data_raw$RUNTIME, na.rm = TRUE))
+data_raw |>
+ggplot() +
+aes(x = RUNTIME) +
+geom_histogram(bins = 50) +
+geom_vline(aes(xintercept = mean(data_raw$RUNTIME, na.rm = TRUE)),
+color = "red") +
+scale_x_continuous(limits = c(0, 200))
+library(tidyverse)
+library(showtext)
+library(patchwork)
+# font_add_google("IM Fell English SC", "IM Fell English SC")
+# showtext_auto()
+data_raw <- readxl::read_excel("dados/Number Party Massacre V4.0.2.xlsx",
+sheet = "Alphabetical", col_types = c("skip",
+"skip", "skip", "text", "skip", "numeric",
+"text", "text", "text", "numeric",
+"numeric", "text", "text", "text",
+"text", "numeric", "text", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "skip", "skip",
+"skip", "skip", "skip", "skip", "skip",
+"skip", "skip", "skip", "skip", "skip",
+"skip", "skip", "skip", "skip", "skip",
+"skip"))
+data_raw <- data_raw |>
+rename(JUMPSCARES = `Jump Scares`) |>
+filter(SUBGENRE != "Documentary" |
+SUBGENRE2 != "Documentary" |
+SUBGENRE3 !="Documentary" |
+!is.na(COUNTRY))
+data_raw <- data_raw |>
+mutate(continent = countrycode::countrycode(
+sourcevar = as.character(data_raw$COUNTRY),
+origin = "country.name",
+destination = "region"))
+cor_fundo <- "#eeefd7"
+fonte <- "IM Fell English SC"
+cor_principal <- "#73141B"
+cor_fonte <- "#0A0D09"
+data_raw |>
+ggplot() +
+aes(x = RUNTIME) +
+geom_histogram(bins = 50) +
+geom_vline(aes(xintercept = mean(data_raw$RUNTIME, na.rm = TRUE)),
+color = "red") +
+scale_x_continuous(limits = c(0, 200))
+duracao_media <- round(mean(data_raw$RUNTIME, na.rm = TRUE))
+data_raw |>
+ggplot() +
+aes(x = RUNTIME) +
+geom_histogram(bins = 50) +
+geom_vline(aes(xintercept = mean(data_raw$RUNTIME, na.rm = TRUE)),
+color = "red") +
+scale_x_continuous(limits = c(0, 200))
+duracao_media <- round(mean(data_raw$RUNTIME, na.rm = TRUE))
+data_raw |>
+ggplot() +
+aes(x = RUNTIME) +
+geom_histogram(bins = 50) +
+geom_vline(aes(xintercept = mean(data_raw$RUNTIME, na.rm = TRUE)),
+color = "red") +
+scale_x_continuous(limits = c(0, 200))
+data_raw |>
+ggplot() +
+aes(x = RUNTIME, y = AVG) +
+geom_point() +
+coord_flip()
+data_raw |>
+ggplot() +
+aes(x = RUNTIME, y = AVG) +
+geom_point() +
+coord_flip() +
+geom(smooth())
+data_raw |>
+ggplot() +
+aes(x = RUNTIME, y = AVG) +
+geom_point() +
+coord_flip() +
+geom_smooth()
+data_raw |>
+ggplot() +
+aes(x = RUNTIME, y = AVG) +
+geom_point() +
+geom_smooth()
+top_diretores_velhos <- data_raw |>
+filter(YEAR < 2000) |>
+group_by(DIRECTOR) |>
+summarise(num= n(), media = mean(AVG, na.rm = TRUE)) |>
+filter(num >= 2) |>
+slice_max(media, n = 10) |>
+pull(DIRECTOR)
+top_diretores_novos <- data_raw |>
+filter(YEAR >= 2000) |>
+group_by(DIRECTOR) |>
+summarise(num= n(), media = mean(AVG, na.rm = TRUE)) |>
+filter(num >= 2) |>
+slice_max(media, n = 10) |>
+pull(DIRECTOR)
+top_diretores_estrangeiros <- data_raw |>
+filter(!continent %in% c("North America", "Europe & Central Asia"),
+COUNTRY != "Australia") |>
+group_by(DIRECTOR) |>
+summarise(num = n(), media = mean(AVG, na.rm = TRUE)) |>
+filter(num >= 2) |>
+slice_max(media, n = 10) |>
+pull(DIRECTOR)
+data_raw |>
+filter(DIRECTOR %in% top_diretores_velhos
+| DIRECTOR %in% top_diretores_novos
+| DIRECTOR %in% top_diretores_estrangeiros) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ", ", na.rm = TRUE) |>
+group_by(DIRECTOR) |>
+slice_max(AVG, n = 1, with_ties = FALSE) |>
+select(TITLE, YEAR, GENRE, DIRECTOR, RUNTIME, AVG, JUMPSCARES) |>
+rename(
+"Título" = TITLE,
+"Ano" = YEAR,
+"Gênero" = GENRE,
+"Diretor" = DIRECTOR,
+"Duração" = RUNTIME,
+"Nota média" = AVG,
+"Sustos" = JUMPSCARES
+) |>
+arrange(desc(`Nota média`)) |>
+reactable::reactable(searchable = TRUE,
+defaultPageSize = 5,
+bordered = TRUE,
+highlight = TRUE,
+defaultColDef = reactable::colDef(
+align = "center",
+headerStyle = list(background = "#f7f7f8")))
+# reactable::reactable(searchable = TRUE, columns = list(
+#     RATED = reactable::colDef(cell = function(value){
+#       if (value == "R" | value == "TV-MA" | value == "X") "+18"
+#       else if (value == "NC-17" | value == "MA-17") "+16"
+#       else if (value %in% c("PG", "TV-PG", "PG-13", "TV-14")) "+12"
+#       else if (value %in% c("NR", "Approved")) "NR"
+#       else "Livre"
+#     }
+#   )))
+g1 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+count(GENRE) |>
+slice_max(n, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, n)) |>
+ggplot() +
+aes(x = GENRE, y = n) |>
+geom_bar(stat = "Identity") +
+coord_flip()
+g2 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA", GENRE != "Documentary") |>
+group_by(GENRE) |>
+summarise(num = n(), nota_media = mean(AVG, na.rm = TRUE)) |>
+filter(num >=20) |>
+slice_max(nota_media, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, nota_media)) |>
+ggplot() +
+aes(x = GENRE, y = nota_media/10) +
+geom_bar(stat = "Identity") +
+coord_flip() +
+scale_y_continuous(limits = c(0, 10))
+g1 / g2
+install.packages("knitr")

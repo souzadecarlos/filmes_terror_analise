@@ -1,0 +1,512 @@
+filter(SUBGENRE %in% top_genres,
+DIRECTOR %in% top_directors |
+DIRECTOR %in% top_directors_new) |>
+View()
+()
+data_raw |>
+filter(SUBGENRE %in% top_genres,
+DIRECTOR %in% top_directors | DIRECTOR %in% top_directors_new) |>
+View()
+data_raw |>
+filter(SUBGENRE %in% top_genres,
+DIRECTOR %in% top_directors | DIRECTOR %in% top_directors_new) |>
+ggplot() +
+aes(x = RUNTIME, y = AVG) |>
+geom_point()
+data_raw |>
+filter(SUBGENRE %in% top_genres,
+DIRECTOR %in% top_directors | DIRECTOR %in% top_directors_new) |>
+ggplot() +
+aes(x = RUNTIME, y = AVG) |>
+geom_point(fill = YEAR) +
+geom_label()
+data_raw |>
+filter(SUBGENRE %in% top_genres,
+DIRECTOR %in% top_directors | DIRECTOR %in% top_directors_new) |>
+ggplot() +
+aes(x = RUNTIME, y = AVG, fill = YEAR) |>
+geom_point() +
+geom_label()
+data_raw |>
+filter(SUBGENRE %in% top_genres,
+DIRECTOR %in% top_directors | DIRECTOR %in% top_directors_new) |>
+ggplot() +
+aes(x = RUNTIME, y = AVG) |>
+geom_point(color = YEAR) +
+geom_label()
+data_raw |>
+filter(SUBGENRE %in% top_genres,
+DIRECTOR %in% top_directors | DIRECTOR %in% top_directors_new) |>
+ggplot() +
+aes(x = RUNTIME, y = AVG) |>
+geom_point() +
+geom_label()
+data_raw |>
+drop_na(RUNTIME, AVG) |>
+ggplot() +
+aes(x = RUNTIME, y = AVG/10) +
+geom_point(color = cor_principal) +
+xlab("Duração") +
+ylab("Nota média") +
+theme(panel.background = element_rect(fill = cor_fundo),
+plot.background = element_rect(fill = cor_fundo),
+panel.grid.major = element_blank(),
+panel.grid.minor = element_blank(),
+text = element_text(family = fonte, size = 40, color = cor_fonte),
+plot.title = element_text(hjust = 2, vjust = 0.5))
+data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+group_by(GENRE) |>
+summarise(numMovies = n(), meanMovie = mean(AVG, na.rm = TRUE)/10) |>
+filter(GENRE != "NA", numMovies >= 50) |>
+slice_max(meanMovie, n = 10) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, meanMovie)) |>
+ggplot() +
+aes(x = GENRE, y = meanMovie) +
+geom_bar(stat= "identity", fill = cor_principal) +
+ggtitle("Relação entre Gênero e notas médias") +
+xlab("Gênero") +
+ylab("Nota média") +
+scale_y_continuous(limits = c(0,10)) +
+theme(panel.background = element_rect(fill = cor_fundo),
+plot.background = element_rect(fill = cor_fundo),
+panel.grid.major = element_blank(),
+panel.grid.minor = element_blank(),
+text = element_text(family = fonte, size = 40, color = cor_fonte),
+axis.title.y = element_blank(),
+axis.ticks.y = element_blank(),
+axis.text.y = element_blank(),
+axis.title.x = element_blank(),
+plot.title = element_text(hjust = 0.5, vjust = 0.5)) +
+coord_flip() +
+geom_label(aes(label = GENRE),
+hjust = -0.02,
+fill = cor_fundo,
+family = fonte,
+size = 12,
+label.size = NA)
+data_raw |>
+filter(SUBGENRE %in% top_genres,
+DIRECTOR %in% top_directors | DIRECTOR %in% top_directors_new) |>
+ggplot() +
+aes(x = RUNTIME, y = AVG) |>
+geom_point() +
+geom_label(aes(label = TITLE))
+data_raw |>
+filter(SUBGENRE %in% top_genres,
+DIRECTOR %in% top_directors | DIRECTOR %in% top_directors_new) |>
+ggplot() +
+aes(x = RUNTIME, y = AVG) +
+geom_point() +
+geom_label(aes(label = TITLE))
+data_raw |>
+filter(SUBGENRE %in% top_genres,
+DIRECTOR %in% top_directors | DIRECTOR %in% top_directors_new) |>
+ggplot() +
+aes(x = RUNTIME, y = AVG) +
+geom_point() +
+geom_label(aes(label = TITLE), fill = YEAR)
+data_raw |>
+filter(SUBGENRE %in% top_genres,
+DIRECTOR %in% top_directors | DIRECTOR %in% top_directors_new) |>
+ggplot() +
+aes(x = RUNTIME, y = AVG, color = YEAR) +
+geom_point() +
+geom_label(aes(label = TITLE))
+data_raw |>
+filter(SUBGENRE %in% top_genres,
+DIRECTOR %in% top_directors | DIRECTOR %in% top_directors_new) |>
+ggplot() +
+aes(x = RUNTIME, y = AVG) +
+geom_point(aes(color = YEAR))
+data_raw |>
+filter(SUBGENRE %in% top_genres,
+DIRECTOR %in% top_directors | DIRECTOR %in% top_directors_new) |>
+ggplot() +
+aes(x = RUNTIME, y = AVG) +
+geom_point(aes(color = YEAR))
+top_3_jumpscares <- data_raw |>
+slice_max(JUMPSCARES, n = 2) |>
+pull(JUMPSCARES)
+mean_jumpscares <- data_raw |>
+mutate(mean = mean(JUMPSCARES))
+data_raw |>
+filter(JUMPSCARES > 0) |>
+mutate(LABEL = ifelse(JUMPSCARES %in% top_3_jumpscares, TITLE, NA)) |>
+ggplot() +
+aes(x = AVG, y = JUMPSCARES) +
+geom_point() +
+ggrepel::geom_label_repel(aes(label = LABEL),
+label.size = NA, size = 7,
+min.segment.length = 0)
+data_raw |>
+filter(SUBGENRE %in% top_genres,
+DIRECTOR %in% top_directors | DIRECTOR %in% top_directors_new) |>
+ggplot() +
+aes(x = RUNTIME, y = AVG) +
+geom_point(aes(color = YEAR)) +
+ggrepel::geom_label_repel(aes(label = TITLE))
+cor_fonte <- "#0A0D09"
+library(tidyverse)
+library(showtext)
+font_add_google("IM Fell English SC", "IM Fell English SC")
+showtext_auto()
+data_raw <- readxl::read_excel("dados/Number Party Massacre V4.0.2.xlsx",
+sheet = "Alphabetical", col_types = c("skip",
+"skip", "skip", "text", "skip", "numeric",
+"text", "text", "text", "numeric",
+"numeric", "text", "text", "text",
+"text", "numeric", "text", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "skip", "skip",
+"skip", "skip", "skip", "skip", "skip",
+"skip", "skip", "skip", "skip", "skip",
+"skip", "skip", "skip", "skip", "skip",
+"skip"))
+data_raw <- data_raw |>
+rename(JUMPSCARES = `Jump Scares`) |>
+filter(SUBGENRE != "Documentary")
+cor_fundo <- "#eeefd7"
+fonte <- "IM Fell English SC"
+cor_principal <- "#73141B"
+cor_fonte <- "#0A0D09"
+top_directors <- data_raw |>
+group_by(DIRECTOR) |>
+summarise(media = mean(AVG, na.rm = TRUE), num = n()) |>
+filter(num >= 2, DIRECTOR != "NA") |>
+slice_max(media, n = 5) |>
+pull(DIRECTOR)
+top_directors <- data_raw |>
+group_by(DIRECTOR) |>
+summarise(media = mean(AVG, na.rm = TRUE), num = n()) |>
+filter(num >= 2, DIRECTOR != "NA") |>
+slice_max(media, n = 5) |>
+pull(DIRECTOR)
+data_raw |>
+filter(DIRECTOR %in% top_directors) |>
+group_by(DIRECTOR) |>
+summarise(media = mean(AVG, na.rm = TRUE)) |>
+mutate(DIRECTOR = forcats::fct_reorder(DIRECTOR, media)) |>
+ggplot() +
+aes(x = media, y = DIRECTOR) +
+geom_bar(stat = "identity") +
+scale_x_continuous(limits = c(0,100))
+# top_5_genres
+top_genres <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+group_by(GENRE) |>
+summarise(numMovies = n(), meanMovie = mean(AVG, na.rm = TRUE)/10) |>
+filter(GENRE != "NA", numMovies >= 50) |>
+slice_max(meanMovie, n = 5) |>
+pull(GENRE)
+data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+group_by(GENRE) |>
+summarise(numMovies = n(), meanMovie = mean(AVG, na.rm = TRUE)/10) |>
+filter(GENRE != "NA", numMovies >= 50) |>
+slice_max(meanMovie, n = 10) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, meanMovie)) |>
+ggplot() +
+aes(x = GENRE, y = meanMovie) +
+geom_bar(stat= "identity", fill = cor_principal) +
+ggtitle("Relação entre Gênero e notas médias") +
+xlab("Gênero") +
+ylab("Nota média") +
+scale_y_continuous(limits = c(0,10)) +
+theme(panel.background = element_rect(fill = cor_fundo),
+plot.background = element_rect(fill = cor_fundo),
+panel.grid.major = element_blank(),
+panel.grid.minor = element_blank(),
+text = element_text(family = fonte, size = 40, color = cor_fonte),
+axis.title.y = element_blank(),
+axis.ticks.y = element_blank(),
+axis.text.y = element_blank(),
+axis.title.x = element_blank(),
+plot.title = element_text(hjust = 0.5, vjust = 0.5)) +
+coord_flip() +
+geom_label(aes(label = GENRE),
+hjust = -0.02,
+fill = cor_fundo,
+family = fonte,
+size = 12,
+label.size = NA)
+data_raw |>
+filter(YEAR <= 1970) |>
+View()
+data_raw |>
+filter(YEAR <= 1970) |>
+group_by(DIRECTOR) |>
+summarise(num_movies = n(), mean_score = mean(AVG)) |>
+View()
+data_raw |>
+filter(YEAR <= 1970) |>
+group_by(DIRECTOR) |>
+summarise(num_movies = n(), mean_score = mean(AVG)) |>
+filter(num_movies >= 2) |>
+slice_max(AVG, n = 5) |>
+View()
+data_raw |>
+filter(YEAR <= 1970) |>
+group_by(DIRECTOR) |>
+summarise(num_movies = n(), mean_score = mean(AVG)) |>
+filter(num_movies >= 2) |>
+slice_max(AVG, n = 5)
+data_raw |>
+filter(YEAR <= 1970) |>
+group_by(DIRECTOR) |>
+summarise(num_movies = n(), mean_score = mean(AVG)) |>
+filter(num_movies >= 2) |>
+slice_max(mean_score, n = 5) |>
+View()
+data_directors_old <- data_raw |>
+filter(YEAR <= 1970) |>
+group_by(DIRECTOR) |>
+summarise(num_movies = n(), mean_score = mean(AVG)) |>
+filter(num_movies >= 2) |>
+slice_max(mean_score, n = 5)
+directors_old <- data_directors_old |>
+pull(DIRECTOR)
+directors_old <- data_raw |>
+filter(YEAR <= 1970) |>
+group_by(DIRECTOR) |>
+summarise(num_movies = n(), mean_score = mean(AVG)) |>
+filter(num_movies >= 2) |>
+slice_max(mean_score, n = 5)
+directors_old <- data_raw |>
+filter(YEAR <= 1970) |>
+group_by(DIRECTOR) |>
+summarise(num_movies = n(), mean_score = mean(AVG)) |>
+filter(num_movies >= 2) |>
+slice_max(mean_score, n = 5) |>
+pull(DIRECTOR)
+data_raw |>
+filter(DIRECTOR %in% directors_old) |>
+View()
+()
+data_raw |>
+filter(DIRECTOR %in% directors_old) |>
+View()
+data_raw |>
+filter(DIRECTOR %in% directors_old) |>
+ggplot() +
+aes(x = DIRECTOR, y = AVG) |>
+geom_plot()
+data_raw |>
+filter(DIRECTOR %in% directors_old) |>
+ggplot() +
+aes(x = DIRECTOR, y = AVG) +
+geom_plot()
+library(tidyverse)
+data_raw |>
+filter(DIRECTOR %in% directors_old) |>
+ggplot() +
+aes(x = DIRECTOR, y = AVG) +
+geom_boxplot()
+directors_old <- data_raw |>
+filter(YEAR <= 1970) |>
+group_by(DIRECTOR) |>
+summarise(num_movies = n(), mean_score = mean(AVG)) |>
+filter(num_movies >= 2) |>
+slice_max(mean_score, n = 10) |>
+pull(DIRECTOR)
+data_raw |>
+filter(DIRECTOR %in% directors_old) |>
+ggplot() +
+aes(x = DIRECTOR, y = AVG) +
+geom_boxplot()
+directors_old <- data_raw |>
+filter(YEAR <= 1970) |>
+group_by(DIRECTOR) |>
+summarise(num_movies = n(), mean_score = mean(AVG)) |>
+filter(num_movies >= 2) |>
+slice_max(mean_score, n = 5) |>
+pull(DIRECTOR)
+data_raw |>
+filter(DIRECTOR %in% directors_old) |>
+ggplot() +
+aes(x = DIRECTOR, y = AVG) +
+geom_boxplot()
+data_raw |>
+filter(DIRECTOR %in% directors_old) |>
+ggplot() +
+aes(x = DIRECTOR, y = AVG) +
+geom_boxplot() +
+coord_flip()
+old_genres <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+group_by(GENRE) |>
+summarise(numMovies = n(), meanMovie = mean(AVG, na.rm = TRUE)/10) |>
+View()
+old_genres <- data_raw |>
+filter(YEAR <= 1970) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+group_by(GENRE) |>
+summarise(numMovies = n(), meanMovie = mean(AVG, na.rm = TRUE)/10) |>
+View()
+old_genres <- data_raw |>
+filter(YEAR <= 1970) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+group_by(GENRE) |>
+summarise(numMovies = n(), meanMovie = mean(AVG, na.rm = TRUE)/10) |>
+drop_na(GENRE) |>
+View()
+old_genres <- data_raw |>
+filter(YEAR <= 1970) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+group_by(GENRE) |>
+summarise(numMovies = n(), meanMovie = mean(AVG, na.rm = TRUE)/10) |>
+filter(GENRE != "NA") |>
+View()
+old_genres <- data_raw |>
+filter(YEAR <= 1970) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+group_by(GENRE) |>
+summarise(numMovies = n(), meanMovie = mean(AVG, na.rm = TRUE)/10) |>
+filter(GENRE != "NA", GENRE != "B/W") |>
+View()
+old_genres <- data_raw |>
+filter(YEAR <= 1970) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+group_by(GENRE) |>
+summarise(num_movies = n(), mean_movies = mean(AVG, na.rm = TRUE)/10) |>
+filter(GENRE != "NA", GENRE != "B/W", num_movies >= 5) |>
+View()
+old_genres <- data_raw |>
+filter(YEAR <= 1970) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+group_by(GENRE) |>
+summarise(num_movies = n(), mean_movies = mean(AVG, na.rm = TRUE)/10) |>
+filter(GENRE != "NA", GENRE != "B/W", num_movies >= 5) |>
+slice_max(mean_movies, n = 10)
+pull(old_genres)
+old_genres <- data_raw |>
+filter(YEAR <= 1970) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+group_by(GENRE) |>
+summarise(num_movies = n(), mean_movies = mean(AVG, na.rm = TRUE)/10) |>
+filter(GENRE != "NA", GENRE != "B/W", num_movies >= 5) |>
+slice_max(mean_movies, n = 10) |>
+pull(GENRE)
+old_genres
+data_raw |>
+filter(YEAR <= 1970) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+group_by(GENRE) |>
+summarise(num_movies = n(), mean_movies = mean(AVG, na.rm = TRUE)/10) |>
+filter(GENRE != "NA", GENRE != "B/W", num_movies >= 5) |>
+slice_max(mean_movies, n = 10) |>
+ggplot() +
+aes(x = GENRE, y = mean_movies) +
+geom_bar()
+data_raw |>
+filter(YEAR <= 1970) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+group_by(GENRE) |>
+summarise(num_movies = n(), mean_movies = mean(AVG, na.rm = TRUE)/10) |>
+filter(GENRE != "NA", GENRE != "B/W", num_movies >= 5) |>
+slice_max(mean_movies, n = 10) |>
+ggplot() +
+aes(x = GENRE, y = mean_movies) +
+geom_bar(stat = "Identity")
+data_raw |>
+filter(YEAR <= 1970) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+group_by(GENRE) |>
+summarise(num_movies = n(), mean_movies = mean(AVG, na.rm = TRUE)/10) |>
+filter(GENRE != "NA", GENRE != "B/W", num_movies >= 5) |>
+slice_max(mean_movies, n = 10) |>
+forcats::fct_reorder(GENRE, mean_movies) |>
+ggplot() +
+aes(x = GENRE, y = mean_movies) +
+geom_bar(stat = "Identity")
+data_raw |>
+filter(YEAR <= 1970) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+group_by(GENRE) |>
+summarise(num_movies = n(), mean_movies = mean(AVG, na.rm = TRUE)/10) |>
+filter(GENRE != "NA", GENRE != "B/W", num_movies >= 5) |>
+slice_max(mean_movies, n = 10) |>
+forcats::fct_reorder(GENRE, -mean_movies) |>
+ggplot() +
+aes(x = GENRE, y = mean_movies) +
+geom_bar(stat = "Identity")
+data_raw |>
+filter(YEAR <= 1970) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+group_by(GENRE) |>
+summarise(num_movies = n(), mean_movies = mean(AVG, na.rm = TRUE)/10) |>
+filter(GENRE != "NA", GENRE != "B/W", num_movies >= 5) |>
+slice_max(mean_movies, n = 10)
+geom_bar(stat = "Identity")
+geom_bar(stat = "Identity")
+geom_bar(stat = "identity")
+data_raw |>
+filter(YEAR <= 1970) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+group_by(GENRE) |>
+summarise(num_movies = n(), mean_movies = mean(AVG, na.rm = TRUE)/10) |>
+filter(GENRE != "NA", GENRE != "B/W", num_movies >= 5) |>
+slice_max(mean_movies, n = 10) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, -mean_movies) |>
+ggplot()
+data_raw |>
+data_raw |>
+filter(YEAR <= 1970) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+group_by(GENRE) |>
+summarise(num_movies = n(), mean_movies = mean(AVG, na.rm = TRUE)/10) |>
+filter(GENRE != "NA", GENRE != "B/W", num_movies >= 5) |>
+slice_max(mean_movies, n = 10) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, -mean_movies)) |>
+ggplot()
+data_raw |>
+filter(YEAR <= 1970) |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+group_by(GENRE) |>
+summarise(num_movies = n(), mean_movies = mean(AVG, na.rm = TRUE)/10) |>
+filter(GENRE != "NA", GENRE != "B/W", num_movies >= 5) |>
+slice_max(mean_movies, n = 10) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, -mean_movies)) |>
+ggplot() +
+aes(x = GENRE, y = mean_movies) +
+geom_bar(stat = "identity")
+directors_old <- data_raw |>
+filter(YEAR > 1970 & YEAR <= 2000) |>
+group_by(DIRECTOR) |>
+summarise(num_movies = n(), mean_score = mean(AVG)) |>
+filter(num_movies >= 2) |>
+slice_max(mean_score, n = 5) |>
+pull(DIRECTOR)
+data_raw |>
+filter(DIRECTOR %in% directors_old) |>
+ggplot() +
+aes(x = DIRECTOR, y = AVG) +
+geom_boxplot() +
+coord_flip()
+directors_old <- data_raw |>
+filter(YEAR <= 1970) |>
+group_by(DIRECTOR) |>
+summarise(num_movies = n(), mean_score = mean(AVG)) |>
+filter(num_movies >= 2) |>
+slice_max(mean_score, n = 5) |>
+pull(DIRECTOR)

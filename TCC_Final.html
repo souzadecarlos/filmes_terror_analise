@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Carlos de Souza">
+
+<title>Análise de filmes de terror</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="TCC_Final_files/libs/clipboard/clipboard.min.js"></script>
+<script src="TCC_Final_files/libs/quarto-html/quarto.js"></script>
+<script src="TCC_Final_files/libs/quarto-html/popper.min.js"></script>
+<script src="TCC_Final_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="TCC_Final_files/libs/quarto-html/anchor.min.js"></script>
+<link href="TCC_Final_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="TCC_Final_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="TCC_Final_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="TCC_Final_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="TCC_Final_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+<script src="TCC_Final_files/libs/core-js-2.5.3/shim.min.js"></script>
+<script src="TCC_Final_files/libs/react-17.0.0/react.min.js"></script>
+<script src="TCC_Final_files/libs/react-17.0.0/react-dom.min.js"></script>
+<script src="TCC_Final_files/libs/reactwidget-1.0.0/react-tools.js"></script>
+<script src="TCC_Final_files/libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="TCC_Final_files/libs/reactable-binding-0.3.0/reactable.js"></script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Análise de filmes de terror</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Carlos de Souza </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+
+</div>
+<section id="introdução" class="level2">
+<h2 class="anchored" data-anchor-id="introdução">Introdução</h2>
+<p>Dia 31 de outubro marca a data comemorativa do Halloween, festa para recordação e celebração dos mortos e das almas penadas. Que tal aproveitar essa companhia do além para maratonar ou conhecer novos filmes de terror? Então coloque uma música de suspense, apague as luzes e vem comigo!</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://media.giphy.com/media/l0MYFxgP6f9yDlSVi/giphy.gif" class="img-fluid figure-img" width="400"></p>
+</figure>
+</div>
+</section>
+<section id="análise-e-dados" class="level2">
+<h2 class="anchored" data-anchor-id="análise-e-dados">Análise e dados</h2>
+<p>Essa análise tem como objetivo te auxiliar na escolha de um filme de terror no meio desse mar de entretenimento disponível. Para isso, utilizaremos a base <a href="https://docs.google.com/spreadsheets/d/1YhcPjGmzDIGP4mJdibWbjBhSqJOZ20g49w-4bpsvrts/edit#gid=1723986095">Number Party Massacre Ranked List</a>, criada pelo usuário do reddit u/ryno731 e que compila mais de 2000 filmes de terror separados por diretores, ano de lançamento, subgêneros e notas médias em sites de crítica. Para algumas análises, utilizaremos também a base de dados do IMDB, disponível em: <a href="https://datasets.imdbws.com" class="uri">https://datasets.imdbws.com</a>.</p>
+</section>
+<section id="diretores" class="level2">
+<h2 class="anchored" data-anchor-id="diretores">Diretores</h2>
+<p>O que são diretores? O que comem? Onde vivem? Bom, você provavelmente já ouviu falar de Zé do Caixão, John Carpinter, Hitchcook ou as irmãs Wachowski. Elas são responsáveis por toda a visão criativa do filme, desde a escalação dos atores e atrizes, até a filmagem e a pós produção. Especialmente no gênero de terror, os diretores são figuras marcantes da cabeça dos fãs e muitas vezes acabam sendo mais influentes que o próprio elenco. Portanto, podemos iniciar nossa análise verificando quais diretores possuem melhores notas médias.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="TCC_Final_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Levando em conta diretores com pelo menos dois filmes, Fritz Lang aparece com melhores médias, seguido por Hitchcock e Kubrick. Fritz Lang foi um diretor de cinema austríaco responsável por filmes como Metrópolis (1927) e M, o vampiro de Dusseldorf (1931). Já Hitcock é conhecido pelo filme Pscicose (1960) e Kubrick dirigiu filmes como The Shinning (1980) e Laranja Mecância (1971).</p>
+<p>Um fato em comum entre eles é que a média do ano de lançamento de seus filmes, identificado pela etiqueta ao lado direito, é anterior a década de 80. Podemos identificar os diretores mais recentes considerando apenas os filmes lançados após os anos 2000.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="TCC_Final_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Nesse recorte temporal, Henry Selick, John Krasinski (sim, o Jim de The Office) e Jordan Peele aparecem no top 3. Selick foi responsável por duas das maiores animações do gênero terror: O Estranho mundo de Jack (1993) e Coraline (2009), adaptação do livro de Neil Gaiman.</p>
+<p>Podemos unir os 5 diretores de cada período para visualizar melhor a variação das notas de seus filmes.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="TCC_Final_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Visualizando o boxplot desses 10 diretores, percebemos que Fritz Lang é o diretor mais consistente, com mediana acima dos outros e pouca variação de nota entre seus filmes. Já Hitchock possui uma variação bem maior, com filmes tendo notas superiores a 9 e outros com notas proximas a 8.</p>
+<p>Entre os diretores mais recentes, Henry Selick parece ser uma boa escolha, uma vez que seus filmes também apresentam médias altas e pouca variação. Além dele, Jordan Peele, diretor de Get Out (2007) e Us (2019), e Jennifer Kent, diretora de Babadook (2014), são ótimas escolhas para um horror mais recente.</p>
+<p>A tabela a seguir apresenta o filme mais bem avaliado de cada um dos 10 diretores.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 46%">
+<col style="width: 25%">
+<col style="width: 7%">
+<col style="width: 11%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Titulo</th>
+<th style="text-align: left;">Diretor</th>
+<th style="text-align: right;">Ano</th>
+<th style="text-align: right;">Duracao</th>
+<th style="text-align: right;">Media</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">Fritz Lang</td>
+<td style="text-align: right;">1931</td>
+<td style="text-align: right;">99</td>
+<td style="text-align: right;">91.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rear Window</td>
+<td style="text-align: left;">Alfred Hitchcock</td>
+<td style="text-align: right;">1954</td>
+<td style="text-align: right;">112</td>
+<td style="text-align: right;">93.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A Clockwork Orange</td>
+<td style="text-align: left;">Stanley Kubrick</td>
+<td style="text-align: right;">1971</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">85.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bride of Frankenstein</td>
+<td style="text-align: left;">James Whale</td>
+<td style="text-align: right;">1935</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">87.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Jaws</td>
+<td style="text-align: left;">Steven Spielberg</td>
+<td style="text-align: right;">1975</td>
+<td style="text-align: right;">124</td>
+<td style="text-align: right;">87.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The Nightmare Before Christmas</td>
+<td style="text-align: left;">Henry Selick</td>
+<td style="text-align: right;">1993</td>
+<td style="text-align: right;">76</td>
+<td style="text-align: right;">85.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A Quiet Place</td>
+<td style="text-align: left;">John Krasinski</td>
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">82.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Get Out</td>
+<td style="text-align: left;">Jordan Peele</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: right;">104</td>
+<td style="text-align: right;">85.8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ex-Machina</td>
+<td style="text-align: left;">Alex Garland</td>
+<td style="text-align: right;">2014</td>
+<td style="text-align: right;">108</td>
+<td style="text-align: right;">82.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The Babadook</td>
+<td style="text-align: left;">Jennifer Kent</td>
+<td style="text-align: right;">2014</td>
+<td style="text-align: right;">94</td>
+<td style="text-align: right;">79.6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://media.giphy.com/media/O5Xp9QTdpAdmVGIQqR/giphy.gif" class="img-fluid figure-img" width="380"></p>
+</figure>
+</div>
+</section>
+<section id="além-da-lingua-inglesa" class="level2">
+<h2 class="anchored" data-anchor-id="além-da-lingua-inglesa">Além da lingua inglesa</h2>
+<p>Ao avaliarmos nossas base de dados agrupada por continente, notamos que aproximadamente 90% dos dados são referentes a filmes produzidos na América do Norte ou Europa.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="TCC_Final_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Vamos explorar um pouco os paises fora desse eixo.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="TCC_Final_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Dentre os paises selecionados, o Japão é o que possui mais filmes em nossa base, seguido pela Coréia do Sul e do México. Em relação as médias, os filmes sul-coreanos e japoneses parecem ser uma boa escolha para explorar o gênero. Por fim, podemos identificar quais são os filmes mais bem avaliados em cada um desses paises.</p>
+<div class="cell" data-warning="false">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 54%">
+<col style="width: 7%">
+<col style="width: 17%">
+<col style="width: 11%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Título</th>
+<th style="text-align: right;">Ano</th>
+<th style="text-align: left;">Pais</th>
+<th style="text-align: right;">Duração</th>
+<th style="text-align: right;">Média</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Terrified</td>
+<td style="text-align: right;">2018</td>
+<td style="text-align: left;">Argentina</td>
+<td style="text-align: right;">87</td>
+<td style="text-align: right;">69.25</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Good Manners</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: left;">Brazil</td>
+<td style="text-align: right;">135</td>
+<td style="text-align: right;">75.60</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mr.&nbsp;Vampire (Geung-Si Sin Sang)</td>
+<td style="text-align: right;">1985</td>
+<td style="text-align: left;">Hong Kong</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">78.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Tumbbad</td>
+<td style="text-align: right;">2018</td>
+<td style="text-align: left;">India</td>
+<td style="text-align: right;">104</td>
+<td style="text-align: right;">84.25</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Impetigore (Perempuan Tanah Janaham)</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Indonesia</td>
+<td style="text-align: right;">106</td>
+<td style="text-align: right;">77.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">One Cut of the Dead</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Japan</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">85.20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pan’s Labyrinth</td>
+<td style="text-align: right;">2006</td>
+<td style="text-align: left;">Mexico</td>
+<td style="text-align: right;">118</td>
+<td style="text-align: right;">89.60</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">What We Do in the Shadows</td>
+<td style="text-align: right;">2014</td>
+<td style="text-align: left;">New Zealand</td>
+<td style="text-align: right;">86</td>
+<td style="text-align: right;">82.20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Memories of Murder (Salinui Chueok)</td>
+<td style="text-align: right;">2003</td>
+<td style="text-align: left;">South Korea</td>
+<td style="text-align: right;">131</td>
+<td style="text-align: right;">86.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Shutter</td>
+<td style="text-align: right;">2004</td>
+<td style="text-align: left;">Thailand</td>
+<td style="text-align: right;">97</td>
+<td style="text-align: right;">68.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="subgêneros" class="level2">
+<h2 class="anchored" data-anchor-id="subgêneros">Subgêneros</h2>
+<p>Agora que já definimos alguns diretores para ficarmos de olho, podemos analisar quais subgêneros de terror são mais comuns e quais possuem melhores notas.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="TCC_Final_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>O gênero de Slasher é o mais comum em nossa base de dados, seguido de Ficção Cientifica e Comedia. Apesar disso, filmes desses gêneros não parecem ser os mais aprovados do público em geral. Uma possivel explicação para esse fenômeno seria a grande quantidade de filmes produzidos que se encaixam nesses subgêneros mas não foram bem avaliados. Podemos hipotetizar também que filmes do gênero Mudo, Preto e Branco e Giallo possuem um nicho menor e por isso são assistidos apenas por pessoas que já possuem interesse.</p>
+<p>Podemos tentar cruzar os nossos dados com a base do IMDB e verificar quantos votos os filmes desse gênero possuem.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="TCC_Final_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Levando em consideração o número de votos médios por filme, o subgênero Meta, ou seja, filmes que referenciam o próprio gênero de terror, parece ser bem mais engajantes que os outros subgêneros.</p>
+</section>
+<section id="duração" class="level2">
+<h2 class="anchored" data-anchor-id="duração">Duração</h2>
+<p>Com diretores e gêneros explorados, podemos verificar agora qual seria a duração ideal para o filme que vamos escolher.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="TCC_Final_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Explorando a quantidade de filmes com cada duração, notamos que segue uma distribuição normal, onde a grande maioria dos valores estão próximo ao centro, com duração média de 96 minutos.</p>
+<p>Será que o aumento ou diminuição da duração influencia na nota média do filme?</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="TCC_Final_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>A correlação entre duração e nota média parece ser bastante baixa, uma vez que a maior parte dos dados se concentram próximo a 100 minutos e a nota média também. Iremos assumir que a duração do filme não é tão relevante para sua avaliação.</p>
+</section>
+<section id="jumpscare" class="level2">
+<h2 class="anchored" data-anchor-id="jumpscare">Jumpscare</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://media.giphy.com/media/xT9KVzBIcz7xsaVjQ4/giphy.gif" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Por fim, podemos avaliar a quantidade de Jumpscares que os filmes possuem. O termo “Jumpscare” não tem uma tradução exata para português mas podemos entender como aqueles momentos em que o filme te faz pulae de susto. Esse artificio gera um pouco de divisão, tendo pessoas que gostam bastante e outras que evitam ao máximo. Vamos explorar um pouco a distribuição de filmes em relação a esse fator.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="TCC_Final_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Como o histograma está deslocado para a esquerda, podemos afirmar que a maioria dos filmes possuem poucos sustos (entre 0 e 10). É possivel verificar também se existe alguma relação entre a nota dada ao filme e a quantidade de sustos.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="TCC_Final_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Portanto, as pessoas parecem preferir filmes com menor quantidade de sustos. É importante ressaltar que a base é relativamente pequena e a quantidade de filmes com muitos sustos é ainda menor, assim, seriam necessários mais dados para afirmarmos se essa relação esta realmente correta.</p>
+<p>Por fim, podemos verificar quais subgêneros possuem mais ou menos sustos.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="TCC_Final_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Assim, caso goste de tomar sustos, os filmes envolvendo espíritos, monstros e palhaços são um prato cheio. Já se tiver problemas cardiacos, é uma boa opção buscar filmes do gênero Preto e Branco, Crime ou Vingança.</p>
+</section>
+<section id="juntando-tudo" class="level2">
+<h2 class="anchored" data-anchor-id="juntando-tudo">Juntando tudo</h2>
+<p>Agora que exploramos todas as categorias, podemos finalizar nossa análise unindo o melhor de cada tópico em uma listinha de recomendações. A tabela a seguir apresenta um compilado dos 30 melhores diretores, sendo 10 do século 20 , 10 posteriores ou lançados nos anos 2000 e 10 fora do eixo Norte América e Europa. Além disso, os filmes também foram classificados em relação aos subgêneros, duração e quantidade de sustos.</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<div id="htmlwidget-ceec697effc736e71c3c" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-ceec697effc736e71c3c">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Título":["Rear Window","M","Pan's Labyrinth","The Cabinet of Dr. Caligari","Jaws","Bride of Frankenstein","What Ever Happened to Baby Jane?","Get Out","A Clockwork Orange","The Man Who Laughs","Night of the Demon (Curse of the Demon)","Blue Velvet","Kuroneko","A Quiet Place","Ex-Machina","Black Swan","Train To Busan","Searching","Ringu","The Babadook","Sympathy for Lady Vengeance","I Saw the Devil","Hereditary","Dead Alive (Braindead)","Good Manners","Shutter","Munafik"],"Ano":[1954,1931,2006,1920,1975,1935,1962,2017,1971,1928,1957,1986,1968,2018,2014,2010,2016,2018,1998,2014,2005,2010,2018,1992,2017,2004,2016],"Gênero":["Thriller","Slasher, B/W, Crime","Supernatural","Psychological, Silent","Nature","Monster, Sci-Fi, B/W","Psychological, B/W","Psychological, Thriller","Thriller, Psychological, Sci-Fi","Silent, Thriller","Demonic","Thriller","Spirits, B/W","Neo-Monster","Sci-Fi","Psychological, Thriller","Zombie/Virus","Thriller","Spirits, Psychological","Psychological","Revenge","Demonic, Psychological","Occult, Possession","Zombie/Virus, Body, Comedy","Therianthropy, Musical","Spirits","Possession"],"Diretor":["Alfred Hitchcock","Fritz Lang","Guillermo Del Toro","Robert Wiene","Steven Spielberg","James Whale","Robert Aldrich","Jordan Peele","Stanley Kubrick","Paul Leni","Jacques Tourneur","David Lynch","Kaneto Shindo","John Krasinski","Alex Garland","Darren Aronofsky","Sang-ho Yeon","Aneesh Chaganty","Hideo Nakata","Jennifer Kent","Park Chan-Wook","Jee-woon Kim","Ari Aster","Peter Jackson","Marco Dutra","Banjong Pisanthanakun","Syamsul Yusof"],"Duração":[112,99,118,67,124,75,134,104,136,110,95,120,99,90,108,108,118,102,96,94,115,142,127,104,135,97,98],"Nota média":[93.2,91,89.6,87.75,87.6,87,86,85.8,85.8,85.5,84,83.6,83.5,82.8,82.6,81.8,81,80.8,80,79.6,78,77.8,77.6,76,75.6,68,66],"Sustos":["NA","NA",6,"NA",4,"NA","NA",10,"NA","NA","NA","NA",1,14,"NA","NA",4,0,6,11,"NA",2,8,3,"NA",11,"NA"]},"columns":[{"accessor":"Título","name":"Título","type":"character","align":"center","headerStyle":{"background":"#f7f7f8"}},{"accessor":"Ano","name":"Ano","type":"numeric","align":"center","headerStyle":{"background":"#f7f7f8"}},{"accessor":"Gênero","name":"Gênero","type":"character","align":"center","headerStyle":{"background":"#f7f7f8"}},{"accessor":"Diretor","name":"Diretor","type":"character","align":"center","headerStyle":{"background":"#f7f7f8"}},{"accessor":"Duração","name":"Duração","type":"numeric","align":"center","headerStyle":{"background":"#f7f7f8"}},{"accessor":"Nota média","name":"Nota média","type":"numeric","align":"center","headerStyle":{"background":"#f7f7f8"}},{"accessor":"Sustos","name":"Sustos","type":"numeric","align":"center","headerStyle":{"background":"#f7f7f8"}}],"searchable":true,"defaultPageSize":5,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"bordered":true,"dataKey":"b0aeb53cbd6b5d8179047c458b773566"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="conclusão" class="level2">
+<h2 class="anchored" data-anchor-id="conclusão">Conclusão</h2>
+<p>A partir da análise realizada, foi possivel notar que o gênero terror é extremamente variado, tanto em relação a diretores, quanto em relação a subgêneros. Além disso, constatou-se que existe uma vasta produção de filmes de alta qualidade além dos produzidos nos paises anglo-saxônicos, principalmente na Ásia e América Latina.</p>
+<p>Espero que tenha gostado e qualquer dúvida, sugestão ou crítica, fique a vontade para me chamar no twitter <span class="citation" data-cites="crls_h">@crls_h</span>! Beijos e bons sustos!</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://media.giphy.com/media/uyOZNXG756vqaxUdMI/giphy.gif" class="img-fluid figure-img" width="391"></p>
+</figure>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

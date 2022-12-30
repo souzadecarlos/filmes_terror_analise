@@ -1,0 +1,512 @@
+geom_histogram(bins = 50) +
+geom_vline(yintercept = mean(RUNTIME)) +
+scale_x_continuous(limits = c(0, 200))
+data_raw |>
+ggplot() +
+aes(x = RUNTIME) +
+geom_histogram(bins = 50) +
+geom_vline(yintercept = mean(data_raw$RUNTIME)) +
+scale_x_continuous(limits = c(0, 200))
+data_raw |>
+ggplot() +
+aes(x = RUNTIME) +
+geom_histogram(bins = 50) +
+geom_vline(xintercept = mean(RUNTIME)) +
+scale_x_continuous(limits = c(0, 200))
+data_raw |>
+ggplot() +
+aes(x = RUNTIME) +
+geom_histogram(bins = 50) +
+geom_vline(xintercept = mean(data_raw$RUNTIME)) +
+scale_x_continuous(limits = c(0, 200))
+data_raw |>
+ggplot() +
+aes(x = RUNTIME) +
+geom_histogram(bins = 50) +
+geom_vline(xintercept = mean(data_raw$RUNTIME), color = "red") +
+scale_x_continuous(limits = c(0, 200))
+data_raw |>
+ggplot() +
+aes(x = RUNTIME) +
+geom_histogram(bins = 50) +
+geom_vline(aes(xintercept = mean(data_raw$RUNTIME, na.rm = TRUE)),
+color = "red") +
+scale_x_continuous(limits = c(0, 200))
+data_raw |>
+ggplot() +
+aes(x = JUMPSCARES) +
+geom_histogram(bins = 20)
+data_raw |>
+ggplot() +
+aes(x = JUMPSCARES) +
+geom_histogram(bins = 30)
+data_raw |>
+ggplot() +
+aes(x = JUMPSCARES) +
+geom_histogram(bins = 40)
+data_raw |>
+ggplot() +
+aes(x = JUMPSCARES) +
+geom_histogram(bins = 30)
+data_raw |>
+group_by(DIRECTOR) |>
+summarise(num_filmes = n(),
+nota_media = mean(AVG),
+ano_medio = mean(YEAR, na.rm = TRUE)) |>
+filter(num_filmes >= 2) |>
+slice_max(nota_media, n = 5) |>
+mutate(DIRECTOR = forcats::fct_reorder(DIRECTOR, nota_media)) |>
+ggplot() +
+aes(x = DIRECTOR, y = nota_media) +
+geom_bar(stat = "Identity") +
+geom_label(aes(label = round(ano_medio))) +
+coord_flip() +
+scale_y_continuous(limits = c(0,100))
+data_raw |>
+group_by(DIRECTOR) |>
+summarise(num_filmes = n(),
+nota_media = mean(AVG),
+ano_medio = mean(YEAR, na.rm = TRUE)) |>
+filter(num_filmes >= 2) |>
+slice_max(nota_media, n = 5) |>
+mutate(DIRECTOR = forcats::fct_reorder(DIRECTOR, nota_media)) |>
+ggplot() +
+aes(x = DIRECTOR, y = nota_media) +
+geom_bar(stat = "Identity") +
+geom_label(aes(label = round(ano_medio))) +
+coord_flip() +
+scale_y_continuous(limits = c(0,100))
+data_raw |>
+group_by(JUMPSCARES) |>
+summarise(media = mean(JUMPSCARES, na.rm = TRUE)) |>
+View()
+data_raw |>
+group_by(JUMPSCARES) |>
+summarise(media = mean(AVG, na.rm = TRUE)) |>
+View()
+data_raw |>
+group_by(JUMPSCARES) |>
+summarise(media = mean(AVG, na.rm = TRUE)) |>
+ggplot() +
+aes(x = JUMPSCARES, y = meadia) |>
+geom_point()
+data_raw |>
+group_by(JUMPSCARES) |>
+summarise(media = mean(AVG, na.rm = TRUE)) |>
+ggplot() +
+aes(x = JUMPSCARES, y = media) |>
+geom_point()
+data_raw |>
+group_by(JUMPSCARES) |>
+summarise(media = mean(AVG, na.rm = TRUE)) |>
+ggplot() +
+aes(x = JUMPSCARES, y = media) |>
+geom_point() +
+geom_smooth()
+data_raw |>
+group_by(JUMPSCARES) |>
+summarise(media = mean(AVG, na.rm = TRUE)) |>
+ggplot() +
+aes(x = JUMPSCARES, y = media) +
+geom_point() +
+geom_smooth()
+p1 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+group_by(GENRE) |>
+summarise(num_filmes = n(), num_sustos = mean(JUMPSCARES, na.rm = TRUE)) |>
+filter(num_filmes > 10) |>
+slice_max(num_sustos, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, num_sustos)) |>
+ggplot() +
+aes(x = GENRE, y = num_sustos) +
+geom_bar(stat = "Identity") +
+scale_y_continuous(limits = c(0, 15))
+p2 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+group_by(GENRE) |>
+summarise(num_filmes = n(), num_sustos = mean(JUMPSCARES, na.rm = TRUE)) |>
+filter(num_filmes > 10) |>
+slice_min(num_sustos, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, num_sustos)) |>
+ggplot() +
+aes(x = GENRE, y = num_sustos) +
+geom_bar(stat = "Identity") +
+scale_y_continuous(limits = c(0, 15))
+install.packages("gridExtra")
+gridExtra::grid.arrange(p1, p2, nrow = 1)
+p1 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+group_by(GENRE) |>
+summarise(num_filmes = n(), num_sustos = mean(JUMPSCARES, na.rm = TRUE)) |>
+filter(num_filmes > 10) |>
+slice_max(num_sustos, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, num_sustos)) |>
+ggplot() +
+aes(x = GENRE, y = num_sustos) +
+geom_bar(stat = "Identity") +
+scale_y_continuous(limits = c(0, 15)) +
+coord_flip()
+gridExtra::grid.arrange(p1, p2, nrow = 1)
+gridExtra::grid.arrange(p1, p2, ncol = 1)
+p2 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+group_by(GENRE) |>
+summarise(num_filmes = n(), num_sustos = mean(JUMPSCARES, na.rm = TRUE)) |>
+filter(num_filmes > 10) |>
+slice_min(num_sustos, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, num_sustos)) |>
+ggplot() +
+aes(x = GENRE, y = num_sustos) +
+geom_bar(stat = "Identity") +
+scale_y_continuous(limits = c(0, 15)) +
+coord_flip()
+gridExtra::grid.arrange(p1, p2, ncol = 1)
+?grid.arrange
+?grid.arrange()
+gridExtra::grid.arrange(p1, p2, ncol = 1,
+top = "Numero de sustos")
+gridExtra::grid.arrange(p1, p2, ncol = 1,
+bottom = "Numero de sustos", left = "Gênero")
+p1 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+group_by(GENRE) |>
+summarise(num_filmes = n(), num_sustos = mean(JUMPSCARES, na.rm = TRUE)) |>
+filter(num_filmes > 10) |>
+slice_max(num_sustos, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, num_sustos)) |>
+ggplot() +
+aes(x = GENRE, y = num_sustos) +
+geom_bar(stat = "Identity") +
+scale_y_continuous(limits = c(0, 15)) +
+coord_flip() +
+theme(axis.title.y = "none")
+gridExtra::grid.arrange(p1, p2, ncol = 1,
+bottom = "Numero de sustos", left = "Gênero")
+p1 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+group_by(GENRE) |>
+summarise(num_filmes = n(), num_sustos = mean(JUMPSCARES, na.rm = TRUE)) |>
+filter(num_filmes > 10) |>
+slice_max(num_sustos, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, num_sustos)) |>
+ggplot() +
+aes(x = GENRE, y = num_sustos) +
+geom_bar(stat = "Identity") +
+scale_y_continuous(limits = c(0, 15)) +
+coord_flip() +
+theme(axis.title.y = element_blank())
+gridExtra::grid.arrange(p1, p2, ncol = 1,
+bottom = "Numero de sustos", left = "Gênero")
+p1 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+group_by(GENRE) |>
+summarise(num_filmes = n(), num_sustos = mean(JUMPSCARES, na.rm = TRUE)) |>
+filter(num_filmes > 10) |>
+slice_max(num_sustos, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, num_sustos)) |>
+ggplot() +
+aes(x = GENRE, y = num_sustos) +
+geom_bar(stat = "Identity") +
+scale_y_continuous(limits = c(0, 15)) +
+coord_flip() +
+theme(axis.title.y = element_blank(),
+axis.title.x = element_blank())
+gridExtra::grid.arrange(p1, p2, ncol = 1,
+bottom = "Numero de sustos", left = "Gênero")
+p1 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+group_by(GENRE) |>
+summarise(num_filmes = n(), num_sustos = mean(JUMPSCARES, na.rm = TRUE)) |>
+filter(num_filmes > 10) |>
+slice_max(num_sustos, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, num_sustos)) |>
+ggplot() +
+aes(x = GENRE, y = num_sustos) +
+geom_bar(stat = "Identity") +
+scale_y_continuous(limits = c(0, 15)) +
+coord_flip() +
+xlab("Top 5") +
+theme(axis.title.x = element_blank())
+gridExtra::grid.arrange(p1, p2, ncol = 1,
+bottom = "Numero de sustos", left = "Gênero")
+p1 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+group_by(GENRE) |>
+summarise(num_filmes = n(), num_sustos = mean(JUMPSCARES, na.rm = TRUE)) |>
+filter(num_filmes > 10) |>
+slice_max(num_sustos, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, num_sustos)) |>
+ggplot() +
+aes(x = GENRE, y = num_sustos) +
+geom_bar(stat = "Identity") +
+scale_y_continuous(limits = c(0, 15)) +
+coord_flip() +
+theme(axis.title.x = element_blank(),
+axis.title.y = element_blank())
+gridExtra::grid.arrange(p1, p2, ncol = 1,
+bottom = "Numero de sustos", left = "Gênero")
+p2 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+group_by(GENRE) |>
+summarise(num_filmes = n(), num_sustos = mean(JUMPSCARES, na.rm = TRUE)) |>
+filter(num_filmes > 10) |>
+slice_min(num_sustos, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, num_sustos)) |>
+ggplot() +
+aes(x = GENRE, y = num_sustos) +
+geom_bar(stat = "Identity") +
+scale_y_continuous(limits = c(0, 15)) +
+coord_flip +
+theme(axis.title.x = element_blank(),
+axis.title.y = element_blank())
+p2 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+group_by(GENRE) |>
+summarise(num_filmes = n(), num_sustos = mean(JUMPSCARES, na.rm = TRUE)) |>
+filter(num_filmes > 10) |>
+slice_min(num_sustos, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, num_sustos)) |>
+ggplot() +
+aes(x = GENRE, y = num_sustos) +
+geom_bar(stat = "Identity") +
+scale_y_continuous(limits = c(0, 15)) +
+coord_flip() +
+theme(axis.title.x = element_blank(),
+axis.title.y = element_blank())
+gridExtra::grid.arrange(p1, p2, ncol = 1,
+bottom = "Numero de sustos", left = "Gênero")
+gridExtra::grid.arrange(p1, p2, ncol = 1,
+bottom = "Numero de sustos")
+install.packages("gtable")
+library(gtable)
+library(gtable)
+g1 <- ggplotGrob(p1)
+g2 <- ggplotGrob(p2)
+g <- rbind(g1, g2, size = "first")
+g$widths <- unit.pmax(g2$widths, g3$widths)
+library(gtable)
+g1 <- ggplotGrob(p1)
+g2 <- ggplotGrob(p2)
+g <- rbind(g1, g2, size = "first")
+g$widths <- unit.pmax(g1$widths, g2$widths)
+?unit.pmax
+??unit.pmax
+library(gtable)
+g1 <- ggplotGrob(p1)
+g2 <- ggplotGrob(p2)
+g <- rbind(g1, g2, size = "first")
+g$widths <- grid::unit.pmax(g1$widths, g2$widths)
+grid.newpage()
+library(gtable)
+g1 <- ggplotGrob(p1)
+g2 <- ggplotGrob(p2)
+g <- rbind(g1, g2, size = "first")
+g$widths <- grid::unit.pmax(g1$widths, g2$widths)
+grid::grid.newpage()
+grid::grid.draw(g)
+g1 + g2
+library(patchwork)
+g2
+g1 + g2
+g1 / g2
+g1 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+count(GENRE) |>
+slice_max(n, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, n)) |>
+ggplot() +
+aes(x = GENRE, y = n) |>
+geom_bar(stat = "Identity") +
+coord_flip()
+g1 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+count(GENRE) |>
+slice_max(n, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, n)) |>
+ggplot() +
+aes(x = GENRE, y = n) |>
+geom_bar(stat = "Identity") +
+coord_flip()
+library(tidyverse)
+library(showtext)
+library(patchwork)
+font_add_google("IM Fell English SC", "IM Fell English SC")
+showtext_auto()
+data_raw <- readxl::read_excel("dados/Number Party Massacre V4.0.2.xlsx",
+sheet = "Alphabetical", col_types = c("skip",
+"skip", "skip", "text", "skip", "numeric",
+"text", "text", "text", "numeric",
+"numeric", "text", "text", "text",
+"text", "numeric", "text", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "skip", "skip",
+"skip", "skip", "skip", "skip", "skip",
+"skip", "skip", "skip", "skip", "skip",
+"skip", "skip", "skip", "skip", "skip",
+"skip"))
+data_raw <- data_raw |>
+rename(JUMPSCARES = `Jump Scares`) |>
+filter(SUBGENRE != "Documentary")
+data_raw <- data_raw |>
+filter(!is.na(COUNTRY)) |>
+mutate(continent =
+countrycode::countrycode(
+sourcevar = as.character(data_raw$COUNTRY),
+origin = "country.name",
+destination = "region"))
+cor_fundo <- "#eeefd7"
+fonte <- "IM Fell English SC"
+cor_principal <- "#73141B"
+cor_fonte <- "#0A0D09"
+g1 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+count(GENRE) |>
+slice_max(n, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, n)) |>
+ggplot() +
+aes(x = GENRE, y = n) |>
+geom_bar(stat = "Identity") +
+coord_flip()
+g2 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+group_by(GENRE) |>
+summarise(num = n(), nota_media = mean(AVG, na.rm = TRUE)) |>
+slice_max(num, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, nota_media)) |>
+ggplot() +
+aes(x = GENRE, y = nota_media/10) +
+geom_bar(stat = "Identity") +
+coord_flip() +
+scale_y_continuous(limits = c(0, 10))
+g1 + g2
+g1 / g2
+g2 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+group_by(GENRE) |>
+summarise(num = n(), nota_media = mean(AVG, na.rm = TRUE)) |>
+slice_max(nota_media, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, nota_media)) |>
+ggplot() +
+aes(x = GENRE, y = nota_media/10) +
+geom_bar(stat = "Identity") +
+coord_flip() +
+scale_y_continuous(limits = c(0, 10))
+g1 / g2
+data_raw <- data_raw |>
+rename(JUMPSCARES = `Jump Scares`) |>
+filter(SUBGENRE != "Documentary")
+library(tidyverse)
+library(showtext)
+library(patchwork)
+font_add_google("IM Fell English SC", "IM Fell English SC")
+showtext_auto()
+data_raw <- readxl::read_excel("dados/Number Party Massacre V4.0.2.xlsx",
+sheet = "Alphabetical", col_types = c("skip",
+"skip", "skip", "text", "skip", "numeric",
+"text", "text", "text", "numeric",
+"numeric", "text", "text", "text",
+"text", "numeric", "text", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "skip", "skip",
+"skip", "skip", "skip", "skip", "skip",
+"skip", "skip", "skip", "skip", "skip",
+"skip", "skip", "skip", "skip", "skip",
+"skip"))
+data_raw <- data_raw |>
+rename(JUMPSCARES = `Jump Scares`) |>
+filter(SUBGENRE != "Documentary")
+data_raw <- data_raw |>
+filter(!is.na(COUNTRY)) |>
+mutate(continent =
+countrycode::countrycode(
+sourcevar = as.character(data_raw$COUNTRY),
+origin = "country.name",
+destination = "region"))
+cor_fundo <- "#eeefd7"
+fonte <- "IM Fell English SC"
+cor_principal <- "#73141B"
+cor_fonte <- "#0A0D09"
+g1 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+count(GENRE) |>
+slice_max(n, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, n)) |>
+ggplot() +
+aes(x = GENRE, y = n) |>
+geom_bar(stat = "Identity") +
+coord_flip()
+g2 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+group_by(GENRE) |>
+summarise(num = n(), nota_media = mean(AVG, na.rm = TRUE)) |>
+slice_max(nota_media, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, nota_media)) |>
+ggplot() +
+aes(x = GENRE, y = nota_media/10) +
+geom_bar(stat = "Identity") +
+coord_flip() +
+scale_y_continuous(limits = c(0, 10))
+g1 / g2
+g1 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+count(GENRE) |>
+slice_max(n, n = 10) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, n)) |>
+ggplot() +
+aes(x = GENRE, y = n) |>
+geom_bar(stat = "Identity") +
+coord_flip()
+g2 <- data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+group_by(GENRE) |>
+summarise(num = n(), nota_media = mean(AVG, na.rm = TRUE)) |>
+slice_max(nota_media, n = 10) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, nota_media)) |>
+ggplot() +
+aes(x = GENRE, y = nota_media/10) +
+geom_bar(stat = "Identity") +
+coord_flip() +
+scale_y_continuous(limits = c(0, 10))
+g1 / g2

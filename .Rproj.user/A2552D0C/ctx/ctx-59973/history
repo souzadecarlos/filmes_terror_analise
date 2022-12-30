@@ -1,0 +1,512 @@
+filter(!COUNTRY %in% top_paises) |>
+group_by(COUNTRY) |>
+summarise(num_filmes = n(), media = mean(AVG)) |>
+filter(num_filmes > 3) |>
+slice_max(num_filmes, n = 10) |>
+ggplot() +
+aes(x = COUNTRY, y = num_filmes) +
+geom_bar(stat= "Identity") +
+geom_label(aes(label = round(media)))
+data_raw |>
+filter(!COUNTRY %in% top_paises) |>
+group_by(COUNTRY) |>
+summarise(num_filmes = n(), media = mean(AVG)) |>
+filter(num_filmes > 3) |>
+slice_max(num_filmes, n = 10) |>
+mutate(COUNTRY = forcats::fct_other(COUNTRY, num_filmes)) |>
+ggplot() +
+aes(x = COUNTRY, y = num_filmes) +
+geom_bar(stat= "Identity") +
+geom_label(aes(label = round(media)))
+data_raw |>
+filter(!COUNTRY %in% top_paises) |>
+group_by(COUNTRY) |>
+summarise(num_filmes = n(), media = mean(AVG)) |>
+filter(num_filmes > 3) |>
+slice_max(num_filmes, n = 10) |>
+mutate(COUNTRY = forcats::fct_reorder(COUNTRY, num_filmes)) |>
+ggplot() +
+aes(x = COUNTRY, y = num_filmes) +
+geom_bar(stat= "Identity") +
+geom_label(aes(label = round(media)))
+data_raw |>
+filter(!COUNTRY %in% top_paises) |>
+group_by(COUNTRY) |>
+summarise(num_filmes = n(), media = mean(AVG)) |>
+filter(num_filmes > 3) |>
+slice_max(num_filmes, n = 10) |>
+mutate(COUNTRY = forcats::fct_reorder(COUNTRY, -num_filmes)) |>
+ggplot() +
+aes(x = COUNTRY, y = num_filmes) +
+geom_bar(stat= "Identity") +
+geom_label(aes(label = round(media)))
+install.packages("countrycode")
+library(countrycode)
+?countrycode
+data_raw |>
+mutate(continent = countrycode(COUNTRY))
+data_raw |>
+mutate(continent = countrycode(sourcevar = select(COUNTRY),
+origin = "country.name",
+destination = continent)) |>
+View()
+countrycode::countrycode(sourcevar = data_raw[, "COUNTRY"],
+origin = "country.name",
+destination = "continent")
+countrycode::countrycode(sourcevar = select(data_raw, COUNTRY),
+origin = "country.name",
+destination = "continent")
+countrycode::countrycode(sourcevar = select(data_raw, COUNTRY),
+origin = "iso2c",
+destination = "country.name")
+destination = "continent")
+data_raw |>
+filter(!is.na(COUNTRY)) |>
+mutate(continent = countrycode::countrycode(sourcevar = select(COUNTRY),
+origin = "country.name",
+destination = "continent"))
+data_raw |>
+filter(!is.na(COUNTRY)) |>
+mutate(continent = countrycode::countrycode(sourcevar = select(data_raw, COUNTRY),
+origin = "country.name",
+destination = "continent"))
+data_raw |>
+filter(!is.na(COUNTRY)) |>
+mutate(continent =
+countrycode::countrycode(
+sourcevar = as.character(data_raw$COUNTRY),
+origin = "country.name",
+destination = "continent"))
+data_raw |>
+filter(!is.na(COUNTRY)) |>
+mutate(continent =
+countrycode::countrycode(
+sourcevar = as.character(data_raw$COUNTRY),
+origin = "country.name",
+destination = "region"))
+data_raw |>
+filter(COUNTRY == "Venuzuela") |>
+View()
+data_raw |>
+filter(!is.na(COUNTRY)) |>
+mutate(continent =
+countrycode::countrycode(
+sourcevar = as.character(data_raw$COUNTRY),
+origin = "country.name",
+destination = "region")) |>
+filter(COUNTRY == "Brazil") |>
+View()
+data_raw |>
+mutate(continent =
+countrycode::countrycode(
+sourcevar = as.character(data_raw$COUNTRY),
+origin = "country.name",
+destination = "region")) |>
+filter(COUNTRY == "Brazil") |>
+View()
+View()
+View()
+data_raw |>
+mutate(continent =
+countrycode::countrycode(
+sourcevar = as.character(data_raw$COUNTRY),
+origin = "country.name",
+destination = "region")) |>
+filter(is.na(COUNTRY)) |>
+View()
+data_raw <- data_raw |>
+rename(JUMPSCARES = `Jump Scares`) |>
+filter(SUBGENRE != "Documentary") |>
+filter(!is.na(COUNTRY)) |>
+mutate(continent =
+countrycode::countrycode(
+sourcevar = as.character(data_raw$COUNTRY),
+origin = "country.name",
+destination = "region"))
+data_raw <- readxl::read_excel("dados/Number Party Massacre V4.0.2.xlsx",
+sheet = "Alphabetical", col_types = c("skip",
+"skip", "skip", "text", "skip", "numeric",
+"text", "text", "text", "numeric",
+"numeric", "text", "text", "text",
+"text", "numeric", "text", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "skip", "skip",
+"skip", "skip", "skip", "skip", "skip",
+"skip", "skip", "skip", "skip", "skip",
+"skip", "skip", "skip", "skip", "skip",
+"skip"))
+data_raw <- data_raw |>
+rename(JUMPSCARES = `Jump Scares`) |>
+filter(SUBGENRE != "Documentary") |>
+filter(!is.na(COUNTRY)) |>
+mutate(continent =
+countrycode::countrycode(
+sourcevar = as.character(data_raw$COUNTRY),
+origin = "country.name",
+destination = "region"))
+data_raw |>
+rename(JUMPSCARES = `Jump Scares`) |>
+filter(SUBGENRE != "Documentary") |>
+mutate(continent =
+countrycode::countrycode(
+sourcevar = as.character(data_raw$COUNTRY),
+origin = "country.name",
+destination = "region"))
+data_raw |>
+rename(JUMPSCARES = `Jump Scares`) |>
+filter(SUBGENRE != "Documentary") |>
+mutate(continent =
+countrycode::countrycode(
+sourcevar = as.character(data_raw$COUNTRY),
+origin = "country.name",
+destination = "region")) |>
+View()
+View(data_raw)
+data_raw |>
+rename(JUMPSCARES = `Jump Scares`) |>
+filter(SUBGENRE != "Documentary") |>
+mutate(continent = countrycode::countrycode(
+sourcevar = as.character(data_raw$COUNTRY),
+origin = "country.name",
+destination = "region")) |>
+View()
+data_raw <- readxl::read_excel("dados/Number Party Massacre V4.0.2.xlsx",
+sheet = "Alphabetical", col_types = c("skip",
+"skip", "skip", "text", "skip", "numeric",
+"text", "text", "text", "numeric",
+"numeric", "text", "text", "text",
+"text", "numeric", "text", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "skip", "skip",
+"skip", "skip", "skip", "skip", "skip",
+"skip", "skip", "skip", "skip", "skip",
+"skip", "skip", "skip", "skip", "skip",
+"skip"))
+data_raw <- data_raw |>
+rename(JUMPSCARES = `Jump Scares`) |>
+filter(SUBGENRE != "Documentary")
+data_raw |>
+filter(!is.na(COUNTRY)) |>
+mutate(continent =
+countrycode::countrycode(
+sourcevar = as.character(data_raw$COUNTRY),
+origin = "country.name",
+destination = "region")) |>
+View()
+data_raw <- data_raw |>
+filter(!is.na(COUNTRY)) |>
+mutate(continent =
+countrycode::countrycode(
+sourcevar = as.character(data_raw$COUNTRY),
+origin = "country.name",
+destination = "region"))
+data_raw |>
+group_by(continent) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE)) |>
+View()
+data_raw |>
+group_by(continent) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE)) |>
+mutate(continent = forcats::fct_reorder(continent, num_movies)) |>
+View()
+data_raw |>
+group_by(continent) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE)) |>
+mutate(continent = forcats::fct_reorder(continent, num_movies)) |>
+ggplot() +
+aes(x = continent, y = num_movies) |>
+geom_bar(stat = "identity")
+data_raw |>
+group_by(continent) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE)) |>
+mutate(continent = forcats::fct_reorder(continent, num_movies)) |>
+ggplot() +
+aes(x = continent, y = num_movies) |>
+geom_bar(stat = "identity") +
+coord_flip()
+data_raw |>
+drop_na(!is.na(continent)) |>
+group_by(continent) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE),
+porcentagem = num_movies/nrow(data_raw)) |>
+mutate(continent = forcats::fct_reorder(continent, num_movies)) |>
+ggplot() +
+aes(x = continent, y = porcentagem) |>
+geom_bar(stat = "identity") +
+coord_flip()
+data_raw |>
+filter(!is.na(continent)) |>
+group_by(continent) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE),
+porcentagem = num_movies/nrow(data_raw)) |>
+mutate(continent = forcats::fct_reorder(continent, num_movies)) |>
+ggplot() +
+aes(x = continent, y = porcentagem) |>
+geom_bar(stat = "identity") +
+coord_flip()
+data_raw |>
+filter(!is.na(continent)) |>
+group_by(continent) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE),
+porcentagem = num_movies/nrow(data_raw)) |>
+mutate(continent = forcats::fct_reorder(continent, num_movies)) |>
+ggplot() +
+aes(x = continent, y = porcentagem) |>
+geom_bar(stat = "identity") +
+geom_label(aes(label = media)) +
+coord_flip()
+data_raw |>
+filter(!is.na(continent)) |>
+group_by(continent) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE),
+porcentagem = num_movies/nrow(data_raw)) |>
+mutate(continent = forcats::fct_reorder(continent, num_movies)) |>
+ggplot() +
+aes(x = continent, y = porcentagem) +
+geom_bar(stat = "identity") +
+geom_label(aes(label = media)) +
+coord_flip()
+data_raw |>
+filter(!is.na(continent)) |>
+group_by(continent) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE),
+porcentagem = num_movies/nrow(data_raw)) |>
+mutate(continent = forcats::fct_reorder(continent, num_movies)) |>
+ggplot() +
+aes(x = continent, y = porcentagem) +
+geom_bar(stat = "identity") +
+geom_label(aes(label = round(media))) +
+coord_flip()
+data_raw |>
+filter(!continent %in% c("North America", "Europa & Central Asia")) |>
+View()
+data_raw |>
+filter(!continent %in% c("North America", "Europa & Central Asia")) |>
+group_by(CONTRY) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE)) |>
+ggplot() +
+aes(x = COUNTRY, y = num_movies) +
+geom_bar()
+data_raw |>
+filter(!continent %in% c("North America", "Europa & Central Asia")) |>
+group_by(CONTRY) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE)) |>
+ggplot() +
+aes(x = COUNTRY, y = num_movies) +
+geom_bar(stat = "Identity")
+data_raw |>
+filter(!continent %in% c("North America", "Europa & Central Asia")) |>
+group_by(COUNTRY) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE)) |>
+ggplot() +
+aes(x = COUNTRY, y = num_movies) +
+geom_bar(stat = "Identity")
+data_raw |>
+filter(!continent %in% c("North America", "Europa & Central Asia")) |>
+group_by(COUNTRY) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE)) |>
+ggplot() +
+aes(x = COUNTRY, y = num_movies) +
+geom_bar(stat = "Identity") +
+coord_flip()
+data_raw |>
+filter(COUNTRY = "United Kingdom") |>
+View()
+data_raw |>
+filter(COUNTRY == "United Kingdom") |>
+View()
+data_raw |>
+filter(!continent %in% c("North America", "Europe & Central Asia")) |>
+group_by(COUNTRY) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE)) |>
+ggplot() +
+aes(x = COUNTRY, y = num_movies) +
+geom_bar(stat = "Identity") +
+coord_flip()
+data_raw |>
+filter(!continent %in% c("North America", "Europe & Central Asia"),
+COUNTRY != "Australia") |>
+group_by(COUNTRY) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE)) |>
+ggplot() +
+aes(x = COUNTRY, y = num_movies) +
+geom_bar(stat = "Identity") +
+coord_flip()
+data_raw |>
+filter(!continent %in% c("North America", "Europe & Central Asia"),
+COUNTRY != "Australia") |>
+group_by(COUNTRY) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE)) |>
+mutate(COUNTRY = forcats::fct_reorder(COUNTRY, num_movies)) |>
+ggplot() +
+aes(x = COUNTRY, y = num_movies) +
+geom_bar(stat = "Identity") +
+coord_flip()
+data_raw |>
+filter(!continent %in% c("North America", "Europe & Central Asia"),
+COUNTRY != "Australia") |>
+group_by(COUNTRY) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE)) |>
+mutate(COUNTRY = forcats::fct_reorder(COUNTRY, num_movies)) |>
+ggplot() +
+aes(x = COUNTRY, y = num_movies) +
+geom_bar(stat = "Identity") +
+coord_flip() +
+geom_label(aes(label = media))
+data_raw |>
+filter(!continent %in% c("North America", "Europe & Central Asia"),
+COUNTRY != "Australia") |>
+group_by(COUNTRY) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE)) |>
+mutate(COUNTRY = forcats::fct_reorder(COUNTRY, num_movies)) |>
+ggplot() +
+aes(x = COUNTRY, y = num_movies) +
+geom_bar(stat = "Identity") +
+coord_flip() +
+geom_label(aes(label = round(media)))
+data_raw |>
+filter(!continent %in% c("North America", "Europe & Central Asia"),
+COUNTRY != "Australia") |>
+group_by(COUNTRY) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE)) |>
+mutate(COUNTRY = forcats::fct_reorder(COUNTRY, num_movies)) |>
+ggplot() +
+aes(x = COUNTRY, y = num_movies) +
+geom_bar(stat = "Identity") +
+coord_flip()
+data_raw |>
+filter(!continent %in% c("North America", "Europe & Central Asia"),
+COUNTRY != "Australia") |>
+group_by(COUNTRY) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE)) |>
+filter(num_movies >= 4) |>
+mutate(COUNTRY = forcats::fct_reorder(COUNTRY, num_movies)) |>
+ggplot() +
+aes(x = COUNTRY, y = num_movies) +
+geom_bar(stat = "Identity") +
+coord_flip()
+data_raw |>
+filter(!continent %in% c("North America", "Europe & Central Asia"),
+COUNTRY != "Australia") |>
+group_by(COUNTRY) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE)) |>
+filter(num_movies >= 4) |>
+mutate(COUNTRY = forcats::fct_reorder(COUNTRY, num_movies)) |>
+ggplot() +
+aes(x = COUNTRY, y = num_movies) +
+geom_bar(stat = "Identity") +
+coord_flip() +
+geom_label(aes(label = media))
+data_raw |>
+filter(!continent %in% c("North America", "Europe & Central Asia"),
+COUNTRY != "Australia") |>
+group_by(COUNTRY) |>
+summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE)) |>
+filter(num_movies >= 4) |>
+mutate(COUNTRY = forcats::fct_reorder(COUNTRY, num_movies)) |>
+ggplot() +
+aes(x = COUNTRY, y = num_movies) +
+geom_bar(stat = "Identity") +
+coord_flip() +
+geom_label(aes(label = round(media)))
+data_raw |>
+filter(DIRECTOR %in% top_diretores) |>
+select(TITLE, DIRECTOR, YEAR, RUNTIME, AVG) |>
+group_by(DIRECTOR) |>
+slice_max(order_by = AVG, n=1) |>
+rename(
+"Titulo" = TITLE,
+"Ano" = YEAR,
+"Diretor" = DIRECTOR,
+"Duracao" = RUNTIME,
+"Media" = AVG
+) |>
+arrange(factor(Diretor, levels = top_diretores)) |>
+knitr::kable()
+data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+group_by(GENRE) |>
+summarise(num = n(), nota_media = mean(AVG, na.rm = TRUE)) |>
+slice_max(num, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, nota_media)) |>
+ggplot() +
+aes(x = GENRE, y = nota_media/10) +
+geom_bar(stat = "Identity") +
+coord_flip() +
+scale_y_continuous(limits = c(0, 10))
+data_raw |>
+filter(DIRECTOR %in% top_diretores) |>
+select(TITLE, DIRECTOR, YEAR, RUNTIME, AVG) |>
+group_by(DIRECTOR) |>
+slice_max(order_by = AVG, n=1) |>
+rename(
+"Titulo" = TITLE,
+"Ano" = YEAR,
+"Diretor" = DIRECTOR,
+"Duracao" = RUNTIME,
+"Media" = AVG
+) |>
+arrange(factor(Diretor, levels = top_diretores)) |>
+knitr::kable()
+data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+count(GENRE) |>
+slice_max(n, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, n)) |>
+ggplot() +
+aes(x = GENRE, y = n) |>
+geom_bar(stat = "Identity") +
+coord_flip()
+data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+count(GENRE) |>
+slice_max(n, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, n)) |>
+ggplot() +
+aes(x = GENRE, y = n) |>
+geom_bar(stat = "Identity") +
+coord_flip()
+data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+group_by(GENRE) |>
+summarise(num = n(), nota_media = mean(AVG, na.rm = TRUE)) |>
+slice_max(num, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, nota_media)) |>
+ggplot() +
+aes(x = GENRE, y = nota_media/10) +
+geom_bar(stat = "Identity") +
+coord_flip() +
+scale_y_continuous(limits = c(0, 10))
+data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+count(GENRE) |>
+slice_max(n, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, n)) |>
+ggplot() +
+aes(x = GENRE, y = n) |>
+geom_bar(stat = "Identity") +
+coord_flip()
+data_raw
+data_raw |>
+unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |>
+separate_rows(GENRE, sep = ",") |>
+filter(GENRE != "NA") |>
+count(GENRE) |>
+slice_max(n, n = 5) |>
+mutate(GENRE = forcats::fct_reorder(GENRE, n)) |>
+ggplot() +
+aes(x = GENRE, y = n) |>
+geom_bar(stat = "Identity") +
+coord_flip()

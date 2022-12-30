@@ -1,0 +1,567 @@
+---
+title: "Análise de filmes de terror"
+author: "Carlos de Souza"
+format: html
+editor: visual
+---
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+library(tidyverse)
+library(showtext)
+library(patchwork)
+library(showtext)
+library(ggthemes)
+
+
+font_add(family = "AmericanFrights", regular = "./fonts/American Frights.otf")
+showtext_auto()
+
+# font_add_google("IM Fell English SC", "IM Fell English SC")
+# showtext_auto()
+
+
+data_raw <- readxl::read_excel("dados/Number Party Massacre V4.0.2.xlsx", 
+                                sheet = "Alphabetical", col_types = c("skip", 
+                                    "skip", "skip", "text", "skip", "numeric", 
+                                    "text", "text", "text", "numeric", 
+                                    "numeric", "text", "text", "text", 
+                                    "text", "numeric", "text", "numeric", 
+                                    "numeric", "numeric", "numeric", 
+                                    "numeric", "numeric", "numeric", 
+                                    "numeric", "numeric", "skip", "skip", 
+                                    "skip", "skip", "skip", "skip", "skip", 
+                                    "skip", "skip", "skip", "skip", "skip", 
+                                    "skip", "skip", "skip", "skip", "skip", 
+                                    "skip"))
+
+data_raw <- data_raw |> 
+  rename(JUMPSCARES = `Jump Scares`) |> 
+  filter(SUBGENRE != "Documentary" | 
+         SUBGENRE2 != "Documentary" |
+         SUBGENRE3 !="Documentary" |
+         !is.na(COUNTRY))
+
+data_raw <- data_raw |> 
+  mutate(continent = countrycode::countrycode(
+             sourcevar = as.character(data_raw$COUNTRY),
+             origin = "country.name",
+             destination = "region"))
+
+cor_fundo <- "#eeefd7"
+cor_principal <- "#73141B"
+cor_fonte <- "#0A0D09"
+fonte <- "AmericanFrights"
+```
+
+## Introdução
+
+Dia 31 de outubro marca a data comemorativa do Halloween, festa para recordação e celebração dos mortos e das almas penadas. Que tal aproveitar essa companhia do além para maratonar ou conhecer novos filmes de terror? Então coloque uma música de suspense, apague as luzes e vem comigo!
+
+![](https://media.giphy.com/media/l0MYFxgP6f9yDlSVi/giphy.gif){fig-align="center" width="400"}
+
+## Análise e dados
+
+Essa análise tem como objetivo te auxiliar na escolha de um filme de terror no meio desse mar de entretenimento disponível. Para isso, utilizaremos a base [Number Party Massacre Ranked List](https://docs.google.com/spreadsheets/d/1YhcPjGmzDIGP4mJdibWbjBhSqJOZ20g49w-4bpsvrts/edit#gid=1723986095), criada pelo usuário do reddit u/ryno731 e que compila mais de 2000 filmes de terror separados por diretores, ano de lançamento, subgêneros e notas médias em sites de crítica. Para algumas análises, utilizaremos também a base de dados do IMDB, disponível em: <https://datasets.imdbws.com>.
+
+## Diretores
+
+O que são diretores? O que comem? Onde vivem? Bom, você provavelmente já ouviu falar de Zé do Caixão, John Carpinter, Hitchcook ou as irmãs Wachowski. Elas são responsáveis por toda a visão criativa do filme, desde a escalação dos atores e atrizes, até a filmagem e a pós produção. Especialmente no gênero de terror, os diretores são figuras marcantes da cabeça dos fãs e muitas vezes acabam sendo mais influentes que o próprio elenco. Portanto, podemos iniciar nossa análise verificando quais diretores possuem melhores notas médias.
+
+```{r echo = FALSE, warning = FALSE, message=FALSE}
+
+top_diretores_antigos <- data_raw |> 
+  group_by(DIRECTOR) |> 
+  summarise(num_filmes = n(), 
+            nota_media = mean(AVG), 
+            ano_medio = mean(YEAR, na.rm = TRUE)) |> 
+  filter(num_filmes >= 2) |> 
+  slice_max(nota_media, n = 5) 
+
+
+data_raw |> 
+  group_by(DIRECTOR) |> 
+  summarise(num_filmes = n(), 
+            nota_media = mean(AVG), 
+            ano_medio = mean(YEAR, na.rm = TRUE)) |> 
+  filter(num_filmes >= 2) |> 
+  slice_max(nota_media, n = 5) |>
+  mutate(DIRECTOR = forcats::fct_reorder(DIRECTOR, nota_media)) |> 
+  ggplot() +
+  aes(x = DIRECTOR, y = nota_media/10) +
+  geom_bar(stat = "Identity", fill = cor_principal) +
+  geom_label(aes(label = round(ano_medio)), size = 7) +
+  coord_flip() +
+  scale_y_continuous(limits = c(0,10)) +
+  ylab("Nota média") +
+  ggthemes::theme_tufte() +
+  theme(axis.title.y = element_blank(),
+        text = element_text(size = 26, family = fonte))
+
+```
+
+Levando em conta diretores com pelo menos dois filmes, Fritz Lang aparece com melhores médias, seguido por Hitchcock e Kubrick. Fritz Lang foi um diretor de cinema austríaco responsável por filmes como Metrópolis (1927) e M, o vampiro de Dusseldorf (1931). Já Hitcock é conhecido pelo filme Pscicose (1960) e Kubrick dirigiu filmes como The Shinning (1980) e Laranja Mecância (1971).
+
+Um fato em comum entre eles é que a média do ano de lançamento de seus filmes, identificado pela etiqueta ao lado direito, é anterior a década de 80. Podemos identificar os diretores mais recentes considerando apenas os filmes lançados após os anos 2000.
+
+```{r echo = FALSE, warning = FALSE, message=FALSE}
+
+top_diretores_novos <- data_raw |> 
+  group_by(DIRECTOR) |> 
+  summarise(num_filmes = n(), 
+            nota_media = mean(AVG), 
+            ano_medio = mean(YEAR, na.rm = TRUE)) |> 
+  filter(num_filmes >= 2, ano_medio >= 2000) |> 
+  slice_max(nota_media, n = 5) 
+
+data_raw |> 
+  group_by(DIRECTOR) |> 
+  summarise(num_filmes = n(), 
+            nota_media = mean(AVG), 
+            ano_medio = mean(YEAR, na.rm = TRUE)) |> 
+  filter(num_filmes >= 2, ano_medio > 2000) |> 
+  slice_max(nota_media, n = 5) |>
+  mutate(DIRECTOR = forcats::fct_reorder(DIRECTOR, nota_media)) |> 
+  ggplot() +
+  aes(x = DIRECTOR, y = nota_media/10) +
+  geom_bar(stat = "Identity", fill = cor_principal) +
+  geom_label(aes(label = round(ano_medio)), size = 7) +
+  coord_flip() +
+  scale_y_continuous(limits = c(0,10)) +
+  ylab("Nota média") +
+  ggthemes::theme_tufte() +
+  theme(axis.title.y = element_blank(),
+        text = element_text(size = 26, family = fonte))
+
+```
+
+Nesse recorte temporal, Henry Selick, John Krasinski (sim, o Jim de The Office) e Jordan Peele aparecem no top 3. Selick foi responsável por duas das maiores animações do gênero terror: O Estranho mundo de Jack (1993) e Coraline (2009), adaptação do livro de Neil Gaiman.
+
+Podemos unir os 5 diretores de cada período para visualizar melhor a variação das notas de seus filmes.
+
+```{r echo = FALSE, warning = FALSE, message=FALSE}
+
+top_diretores <- bind_rows(top_diretores_antigos, top_diretores_novos) |>
+  pull(DIRECTOR)
+
+data_raw |> 
+  filter(DIRECTOR %in% top_diretores) |> 
+  mutate(DIRECTOR = forcats::fct_reorder(DIRECTOR, AVG)) |> 
+  ggplot() +
+  aes(x = DIRECTOR, y = AVG/10) |> 
+  geom_boxplot() +
+  coord_flip() +
+  ylab("Nota média") +
+  theme_minimal() +
+  ggthemes::theme_tufte()+ 
+  theme(axis.title.y = element_blank(),
+        text = element_text(size = 26, family = fonte))
+```
+
+Visualizando o boxplot desses 10 diretores, percebemos que Fritz Lang é o diretor mais consistente, com mediana acima dos outros e pouca variação de nota entre seus filmes. Já Hitchock possui uma variação bem maior, com filmes tendo notas superiores a 9 e outros com notas proximas a 8.
+
+Entre os diretores mais recentes, Henry Selick parece ser uma boa escolha, uma vez que seus filmes também apresentam médias altas e pouca variação. Além dele, Jordan Peele, diretor de Get Out (2007) e Us (2019), e Jennifer Kent, diretora de Babadook (2014), são ótimas escolhas para um horror mais recente.
+
+A tabela a seguir apresenta o filme mais bem avaliado de cada um dos 10 diretores.
+
+```{r echo = FALSE, message= FALSE, warning = FALSE}
+
+top_diretores_filmes <- data_raw |> 
+  filter(DIRECTOR %in% top_diretores) |> 
+  select(TITLE, DIRECTOR, YEAR, RUNTIME, AVG) |> 
+  group_by(DIRECTOR) |>
+  slice_max(order_by = AVG, n=1) |> 
+  rename(
+    "Titulo" = TITLE,
+    "Ano" = YEAR,
+    "Diretor" = DIRECTOR,
+    "Duracao" = RUNTIME, 
+    "Media" = AVG
+  ) |> 
+  arrange(factor(Diretor, levels = top_diretores)) |> 
+  knitr::kable()
+
+top_diretores_filmes
+```
+
+![](https://media.giphy.com/media/O5Xp9QTdpAdmVGIQqR/giphy.gif){fig-align="center" width="380"}
+
+## Além da lingua inglesa
+
+Ao avaliarmos nossas base de dados agrupada por continente, notamos que aproximadamente 90% dos dados são referentes a filmes produzidos na América do Norte ou Europa.
+
+```{r echo = FALSE, message=FALSE, warning=FALSE}
+
+data_raw |> 
+  filter(!is.na(continent)) |> 
+  group_by(continent) |> 
+  summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE), 
+            porcentagem = num_movies/nrow(data_raw)) |> 
+  mutate(continent = forcats::fct_reorder(continent, -num_movies)) |> 
+  ggplot() + 
+  aes(x = continent, y = porcentagem*100) +
+  geom_bar(stat = "identity", fill = cor_principal) +
+  coord_flip() +
+  ylab("Filmes (%)") +
+  theme(axis.title.y = element_blank()) +
+  ggthemes::theme_tufte() +
+  theme(axis.title.y = element_blank(),
+        text = element_text(size = 26, family = fonte))
+
+```
+
+Vamos explorar um pouco os paises fora desse eixo.
+
+```{r echo = FALSE, message=FALSE, warning=FALSE}
+
+data_raw |> 
+  filter(!continent %in% c("North America", "Europe & Central Asia"),
+         COUNTRY != "Australia") |> 
+  group_by(COUNTRY) |> 
+  summarise(num_movies = n(), media = mean(AVG, na.rm = TRUE)) |> 
+  filter(num_movies >= 2) |> 
+  slice_max(num_movies, n = 10, with_ties = FALSE) |> 
+  mutate(COUNTRY = forcats::fct_reorder(COUNTRY, num_movies)) |> 
+  ggplot() +
+  aes(x = COUNTRY, y = num_movies) +
+  geom_bar(stat = "Identity", fill = cor_principal) +
+  coord_flip() +
+  geom_label(aes(label = round(media)), size = 7) +
+  ylab("Numero de filmes") +
+  ggthemes::theme_tufte() +
+  theme(axis.title.y = element_blank(),
+        text = element_text(size = 26, family = fonte)) +
+  scale_y_continuous(limits = c(0, 40))
+
+```
+
+Dentre os paises selecionados, o Japão é o que possui mais filmes em nossa base, seguido pela Coréia do Sul e do México. Em relação as médias, os filmes sul-coreanos e japoneses parecem ser uma boa escolha para explorar o gênero. Por fim, podemos identificar quais são os filmes mais bem avaliados em cada um desses paises.
+
+```{r echo = FALSE, message = FALSE, WARNING = FALSE}
+
+top_10_country <- data_raw |> 
+  filter(!continent %in% c("North America", "Europe & Central Asia"),
+         COUNTRY != "Australia") |> 
+  group_by(COUNTRY) |> 
+  summarise(n = n(), media = mean(AVG, na.rm = TRUE)) |> 
+  arrange(desc(n), desc(media)) |> 
+  slice_head(n = 10) |> 
+  pull(COUNTRY)
+
+
+data_raw |> 
+  filter(COUNTRY %in% top_10_country) |> 
+  group_by(COUNTRY) |> 
+  slice_max(AVG, n = 1) |> 
+  select(TITLE, YEAR, COUNTRY, RUNTIME, AVG) |> 
+  rename("Título" = TITLE,
+         "Ano" = YEAR, 
+         "Pais" = COUNTRY,
+         "Duração" = RUNTIME,
+         "Média" = AVG) |> 
+  knitr::kable()
+  
+```
+
+## Subgêneros
+
+Agora que já definimos alguns diretores para ficarmos de olho, podemos analisar quais subgêneros de terror são mais comuns e quais possuem melhores notas.
+
+```{r echo = FALSE, message=FALSE, warning=FALSE}
+
+library(patchwork)
+
+g1 <- data_raw |> 
+  unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |> 
+  separate_rows(GENRE, sep = ",") |> 
+  filter(GENRE != "NA") |> 
+  count(GENRE) |> 
+  filter(n >= 5) |> 
+  slice_max(n, n = 5) |> 
+  mutate(GENRE = forcats::fct_reorder(GENRE, n)) |> 
+  ggplot() +
+  aes(x = GENRE, y = n) +
+  geom_bar(stat = "Identity", fill = cor_principal) +
+  coord_flip() +
+  ylab("Número de filmes") +
+  ggthemes::theme_tufte() +
+  theme(axis.title.y = element_blank(),
+        text = element_text(size = 26, family = fonte))
+
+
+g2 <- data_raw |> 
+  unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |> 
+  separate_rows(GENRE, sep = ",") |> 
+  filter(GENRE != "NA", GENRE != "Documentary") |> 
+  group_by(GENRE) |> 
+  summarise(num = n(), nota_media = mean(AVG, na.rm = TRUE)/10) |>
+  filter(num >= 5) |> 
+  slice_max(nota_media, n = 5) |> 
+  mutate(GENRE = forcats::fct_reorder(GENRE, nota_media)) |> 
+  ggplot() +
+  aes(x = GENRE, y = nota_media) +
+  geom_bar(stat = "Identity", fill = cor_principal) +
+  coord_flip() +
+  ylab("Nota média") +
+  ggthemes::theme_tufte() +
+  scale_y_continuous(limits = c(0,10)) +
+  theme(axis.title.y = element_blank(),
+        text = element_text(size = 26, family = fonte))
+
+g1 / g2
+```
+
+O gênero de Slasher é o mais comum em nossa base de dados, seguido de Ficção Cientifica e Comedia. Apesar disso, filmes desses gêneros não parecem ser os mais aprovados do público em geral. Uma possivel explicação para esse fenômeno seria a grande quantidade de filmes produzidos que se encaixam nesses subgêneros mas não foram bem avaliados. Podemos hipotetizar também que filmes do gênero Mudo, Preto e Branco e Giallo possuem um nicho menor e por isso são assistidos apenas por pessoas que já possuem interesse.
+
+Podemos tentar cruzar os nossos dados com a base do IMDB e verificar quantos votos os filmes desse gênero possuem.
+
+```{r echo = FALSE, message=FALSE, warning=FALSE}
+
+imdb <- read_rds("dados/data_horror_rating") |> 
+  rename("TITLE" = primaryTitle,
+         "YEAR" = startYear) |>
+  select(TITLE, YEAR, numVotes, runtimeMinutes, averageRating) |> 
+  mutate(YEAR = as.numeric(YEAR), runtimeMinutes = as.numeric(runtimeMinutes))
+
+
+options(scipen=10000)
+
+left_join(data_raw, imdb) |> 
+  filter(!is.na(numVotes)) |> 
+  unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |> 
+  separate_rows(GENRE, sep = ",") |> 
+  filter(GENRE != "NA") |> 
+  group_by(GENRE) |> 
+  summarise(num_votos = sum(numVotes), 
+            num_filmes = n(), 
+            media_filmes = mean(AVG),
+            votos_medios = num_votos/num_filmes) |> 
+  slice_max(votos_medios, n = 10) |> 
+  mutate(GENRE = forcats::fct_reorder(GENRE, votos_medios)) |> 
+  ggplot() + 
+  aes(x = GENRE, y = votos_medios) +
+  geom_bar(stat = "Identity", fill = cor_principal) +
+  coord_flip() +
+  ylab("Votos médios por filme") +
+  ggthemes::theme_tufte() +
+  theme(axis.title.y = element_blank(),
+        text = element_text(size = 26, family = fonte))
+
+
+```
+
+Levando em consideração o número de votos médios por filme, o subgênero Meta, ou seja, filmes que referenciam o próprio gênero de terror, parece ser bem mais engajantes que os outros subgêneros.
+
+## Duração
+
+Com diretores e gêneros explorados, podemos verificar agora qual seria a duração ideal para o filme que vamos escolher.
+
+```{r echo = FALSE, message=FALSE, warning=FALSE}
+
+duracao_media <- round(mean(data_raw$RUNTIME, na.rm = TRUE))
+
+data_raw |> 
+  ggplot() +
+  aes(x = RUNTIME) +
+  geom_histogram(bins = 50, fill = cor_principal) +
+  geom_vline(aes(xintercept = mean(data_raw$RUNTIME, na.rm = TRUE)), 
+                 color = "black") +
+  scale_x_continuous(limits = c(0, 200)) +
+  xlab("Duracão (min)") +
+  ylab("Contagem") +
+  ggthemes::theme_tufte() +
+  theme(text = element_text(size = 26, family = fonte))
+
+
+```
+
+Explorando a quantidade de filmes com cada duração, notamos que segue uma distribuição normal, onde a grande maioria dos valores estão próximo ao centro, com duração média de `r duracao_media` minutos.
+
+Será que o aumento ou diminuição da duração influencia na nota média do filme?
+
+```{r echo = FALSE, message=FALSE, warning=FALSE}
+
+data_raw |> 
+  ggplot() +
+  aes(x = RUNTIME, y = AVG/10) +
+  geom_point(color = cor_principal) +
+  geom_smooth(color = "#BF343D") +
+  xlab("Duracão (min)") +
+  ylab("Nota média") +
+  ggthemes::theme_tufte() +
+  theme(text = element_text(size = 26, family = fonte))
+```
+
+A correlação entre duração e nota média parece ser bastante baixa, uma vez que a maior parte dos dados se concentram próximo a 100 minutos e a nota média também. Iremos assumir que a duração do filme não é tão relevante para sua avaliação.
+
+## Jumpscare
+
+![](https://media.giphy.com/media/xT9KVzBIcz7xsaVjQ4/giphy.gif){fig-align="center"}
+
+Por fim, podemos avaliar a quantidade de Jumpscares que os filmes possuem. O termo "Jumpscare" não tem uma tradução exata para português mas podemos entender como aqueles momentos em que o filme te faz pulae de susto. Esse artificio gera um pouco de divisão, tendo pessoas que gostam bastante e outras que evitam ao máximo. Vamos explorar um pouco a distribuição de filmes em relação a esse fator.
+
+```{r echo = FALSE, message=FALSE, warning=FALSE}
+
+data_raw |> 
+  ggplot() +
+  aes(x = JUMPSCARES) +
+  geom_histogram(bins = 30, fill = cor_principal) +
+  geom_vline(aes(xintercept = mean(data_raw$JUMPSCARES, na.rm = TRUE)), 
+                 color = "black") +
+  xlab("Sustos") +
+  ylab("Contagem") +
+  ggthemes::theme_tufte() +
+  theme(text = element_text(size = 26, family = fonte))
+
+```
+
+Como o histograma está deslocado para a esquerda, podemos afirmar que a maioria dos filmes possuem poucos sustos (entre 0 e 10). É possivel verificar também se existe alguma relação entre a nota dada ao filme e a quantidade de sustos.
+
+```{r echo = FALSE, message=FALSE, warning=FALSE}
+
+data_raw |> 
+  group_by(JUMPSCARES) |> 
+  summarise(media = mean(AVG, na.rm = TRUE)) |> 
+  ggplot() +
+  aes(x = JUMPSCARES, y = media/10) +
+  geom_point(color = cor_principal) +
+  geom_smooth(color = "#BF343D") +
+  xlab("Sustos") +
+  ylab("Nota média") +
+  scale_y_continuous(limit = c(0, 10)) +
+  ggthemes::theme_tufte() +
+  theme(text = element_text(size = 26, family = fonte))
+```
+
+Portanto, as pessoas parecem preferir filmes com menor quantidade de sustos. É importante ressaltar que a base é relativamente pequena e a quantidade de filmes com muitos sustos é ainda menor, assim, seriam necessários mais dados para afirmarmos se essa relação esta realmente correta.
+
+Por fim, podemos verificar quais subgêneros possuem mais ou menos sustos.
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+library(patchwork)
+
+p1 <- data_raw |> 
+  unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |> 
+  separate_rows(GENRE, sep = ",") |> 
+  filter(GENRE != "NA", !is.na(JUMPSCARES)) |> 
+  group_by(GENRE) |> 
+  summarise(num_filmes = n(), num_sustos = mean(JUMPSCARES, na.rm = TRUE)) |> 
+  filter(num_filmes > 5) |> 
+  slice_max(num_sustos, n = 5) |> 
+  mutate(GENRE = forcats::fct_reorder(GENRE, num_sustos)) |> 
+  ggplot() +
+  aes(x = GENRE, y = num_sustos) +
+  geom_bar(stat = "Identity", fill = cor_principal) +
+  scale_y_continuous(limits = c(0, 15)) +
+  coord_flip() +
+  ylab(element_blank()) +
+  xlab(element_blank()) +
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank()) +
+  ggthemes::theme_tufte() +
+  theme(text = element_text(size = 26, family = fonte))
+        # text = element_text(size = 20))
+
+p2 <- data_raw |> 
+  unite(GENRE, SUBGENRE:SUBGENRE3, sep = ",") |> 
+  separate_rows(GENRE, sep = ",") |> 
+  filter(GENRE != "NA", !is.na(JUMPSCARES)) |> 
+  group_by(GENRE) |> 
+  summarise(num_filmes = n() , num_sustos = mean(JUMPSCARES, na.rm = TRUE)) |> 
+  filter(num_filmes > 5) |> 
+  slice_min(num_sustos, n = 5) |> 
+  mutate(GENRE = forcats::fct_reorder(GENRE, num_sustos)) |> 
+  ggplot() +
+  aes(x = GENRE, y = num_sustos) +
+  geom_bar(stat = "Identity", fill = cor_principal) +
+  scale_y_continuous(limits = c(0, 15)) +
+  coord_flip() +
+  ylab("Numero de sustos") +
+  xlab(element_blank()) +
+  theme(axis.title.y = element_blank()) +
+  ggthemes::theme_tufte() +
+  theme(text = element_text(size = 26, family = fonte))
+        # text = element_text(size = 20))
+
+p1 / p2
+
+```
+
+Assim, caso goste de tomar sustos, os filmes envolvendo espíritos, monstros e palhaços são um prato cheio. Já se tiver problemas cardiacos, é uma boa opção buscar filmes do gênero Preto e Branco, Crime ou Vingança.
+
+## Juntando tudo
+
+Agora que exploramos todas as categorias, podemos finalizar nossa análise unindo o melhor de cada tópico em uma listinha de recomendações. A tabela a seguir apresenta um compilado dos 30 melhores diretores, sendo 10 do século 20 , 10 posteriores ou lançados nos anos 2000 e 10 fora do eixo Norte América e Europa. Além disso, os filmes também foram classificados em relação aos subgêneros, duração e quantidade de sustos.
+
+```{r echo = FALSE, warning=FALSE, message=FALSE}
+
+top_diretores_velhos <- data_raw |> 
+  filter(YEAR < 2000) |> 
+  group_by(DIRECTOR) |> 
+  summarise(num= n(), media = mean(AVG, na.rm = TRUE)) |> 
+  filter(num >= 2) |> 
+  slice_max(media, n = 10) |> 
+  pull(DIRECTOR)
+
+top_diretores_novos <- data_raw |> 
+  filter(YEAR >= 2000) |> 
+  group_by(DIRECTOR) |> 
+  summarise(num= n(), media = mean(AVG, na.rm = TRUE)) |> 
+  filter(num >= 2) |> 
+  slice_max(media, n = 10) |> 
+  pull(DIRECTOR)
+
+top_diretores_estrangeiros <- data_raw |> 
+  filter(!continent %in% c("North America", "Europe & Central Asia"),
+         COUNTRY != "Australia") |> 
+  group_by(DIRECTOR) |> 
+  summarise(num = n(), media = mean(AVG, na.rm = TRUE)) |> 
+  filter(num >= 2) |> 
+  slice_max(media, n = 10) |> 
+  pull(DIRECTOR)
+
+data_raw |> 
+  filter(DIRECTOR %in% top_diretores_velhos 
+         | DIRECTOR %in% top_diretores_novos 
+         | DIRECTOR %in% top_diretores_estrangeiros) |> 
+  unite(GENRE, SUBGENRE:SUBGENRE3, sep = ", ", na.rm = TRUE) |> 
+  group_by(DIRECTOR) |>
+  slice_max(AVG, n = 1, with_ties = FALSE) |> 
+  select(TITLE, YEAR, GENRE, DIRECTOR, RUNTIME, AVG, JUMPSCARES) |> 
+  rename(
+    "Título" = TITLE,
+    "Ano" = YEAR,
+    "Gênero" = GENRE,
+    "Diretor" = DIRECTOR,
+    "Duração" = RUNTIME,
+    "Nota média" = AVG,
+    "Sustos" = JUMPSCARES
+  ) |> 
+  arrange(desc(`Nota média`)) |> 
+  reactable::reactable(searchable = TRUE, 
+                       defaultPageSize = 5,
+                       bordered = TRUE, 
+                       highlight = TRUE,
+                       defaultColDef = reactable::colDef(
+                         align = "center",
+                         headerStyle = list(background = "#f7f7f8")))
+
+# reactable::reactable(searchable = TRUE, columns = list(
+#     RATED = reactable::colDef(cell = function(value){
+#       if (value == "R" | value == "TV-MA" | value == "X") "+18"  
+#       else if (value == "NC-17" | value == "MA-17") "+16"
+#       else if (value %in% c("PG", "TV-PG", "PG-13", "TV-14")) "+12"
+#       else if (value %in% c("NR", "Approved")) "NR"
+#       else "Livre"
+#     }
+#   )))
+
+```
+
+## Conclusão
+
+A partir da análise realizada, foi possivel notar que o gênero terror é extremamente variado, tanto em relação a diretores, quanto em relação a subgêneros. Além disso, constatou-se que existe uma vasta produção de filmes de alta qualidade além dos produzidos nos paises anglo-saxônicos, principalmente na Ásia e América Latina.
+
+Espero que tenha gostado e qualquer dúvida, sugestão ou crítica, fique a vontade para me chamar no twitter @crls_h! Beijos e bons sustos!
+
+![](https://media.giphy.com/media/uyOZNXG756vqaxUdMI/giphy.gif){fig-align="center" width="391"}
